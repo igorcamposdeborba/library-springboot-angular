@@ -1,0 +1,4 @@
+id,title,author,yearPublication,price,user_id,book_id,effectiveFrom,effectiveTo
+1,1984,George Orwell,1949-01-01,4.00,Sofia da Silva,2023-04-01,2023-05-15
+2,Harry Potter,J. K. Rowling,2000-01-01,4.00,Sofia da Silva,2023-04-10,2023-04-20
+3,Java,Paul J. Deitel,2008-01-01,4.00,Igor Borba,2023-04-02,2023-05-10
