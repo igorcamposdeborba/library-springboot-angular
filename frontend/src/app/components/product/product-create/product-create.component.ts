@@ -26,12 +26,12 @@ export class ProductCreateComponent implements OnInit {
   createProduct() {
     this.productService.create(this.product).subscribe(() => {
       this.productService.showMessage('Livro criado');
-      this.router.navigate(['/products']);
+      this.router.navigate(['/books']);
     });
   }
 
   cancel() {
-    this.router.navigate(['/products']); // router para voltar à tela anterior
+    this.router.navigate(['/books']); // router para voltar à tela anterior
   }
 
 }

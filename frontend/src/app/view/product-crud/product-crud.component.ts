@@ -14,7 +14,7 @@ export class ProductCrudComponent implements OnInit {
   }
 
   navigateToBookCreate(): void { // Injeção de dependência para injetar o método (neste caso) dentro do objeto, como um link para navegação
-    this.router.navigate(['/products/create']); // Router para navegar para outra página
+    this.router.navigate(['/book/create']); // Router para navegar para outra página
   }
 
 }
