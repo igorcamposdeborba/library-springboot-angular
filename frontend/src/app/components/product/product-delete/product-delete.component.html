@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-title>Excluir livro</mat-card-title>
+
+    <div *ngIf="!product">Carregando livro...</div>
+
+    <form *ngIf="product">  
+        <mat-form-field>  <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
+            <input matInput placeholder="Título" [(ngModel)]="product.title" name="title" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Autor" [(ngModel)]="product.author" name="author" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Ano de publicação" [(ngModel)]="product.yearPublication" name="yearPublication" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Preço (R$)" [(ngModel)]="product.price" name="price" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" [(ngModel)]="product.libraryId" name="yearPublication" disabled>
+        </mat-form-field>
+    </form>
+
+    <button mat-raised-button (click)="deleteProduct()" color="warn">
+        Excluir
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>
