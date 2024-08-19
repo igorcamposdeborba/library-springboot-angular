@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
-import { Product } from './product.model';
+import { Book } from './book.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class BookService {
 
   private baseUrl: string="http://localhost:8080/book";
 
@@ -22,40 +22,40 @@ export class ProductService {
     })
   }
 
-  create(product: Product): Observable<Product>{ // comunicação com o banco de dados
+  create(book: Book): Observable<Book>{ // comunicação com o banco de dados
 
-    return this.http.post<Product>(this.baseUrl + '/single', product).pipe(
+    return this.http.post<Book>(this.baseUrl + '/single', book).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );
   }
 
-  read () : Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl).pipe(
+  read () : Observable<Book[]> {
+    return this.http.get<Book[]>(this.baseUrl).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );
   }
 
-  readById(id : number) : Observable<Product> {
+  readById(id : number) : Observable<Book> {
     const url = `${this.baseUrl}/${id}`;
-    return this.http.get<Product>(url).pipe(
+    return this.http.get<Book>(url).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );
   }
 
-  update (product: Product) : Observable<Product> {
-    const url = `${this.baseUrl}/${product.id}`;
-    return this.http.put<Product>(url, product).pipe(
+  update (book: Book) : Observable<Book> {
+    const url = `${this.baseUrl}/${book.id}`;
+    return this.http.put<Book>(url, book).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );
   }
 
-  delete (id : number) : Observable<Product> {
+  delete (id : number) : Observable<Book> {
     const url = `${this.baseUrl}/${id}`;
-    return this.http.delete<Product>(url).pipe(
+    return this.http.delete<Book>(url).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );

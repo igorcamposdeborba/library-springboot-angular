@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-title>Novo livro</mat-card-title>
+
+    <form>
+        <mat-form-field> <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
+            <input matInput placeholder="Título" [(ngModel)]="book.title" name="title">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Autor" [(ngModel)]="book.author" name="author">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Data de publicação" [(ngModel)]="book.yearPublication" name="yearPublication">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Preço (R$)" [(ngModel)]="book.price" name="price">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" [(ngModel)]="book.libraryId" name="libraryId">
+        </mat-form-field>
+    </form>
+
+    <button mat-raised-button (click)="createBook()" color="primary">
+        Salvar
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>

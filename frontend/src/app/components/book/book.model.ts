@@ -1,4 +1,4 @@
-export interface Product {
+export interface Book {
     id?: number; // ? significa que o atributo é opcional
     title: string;
     author: string;

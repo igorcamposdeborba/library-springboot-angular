@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './view/home/home.component';
-import { ProductCrudComponent } from './view/product-crud/product-crud.component';
-import { ProductCreateComponent } from './components/product/product-create/product-create.component';
-import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
+import { BookCrudComponent } from './view/book-crud/book-crud.component';
+import { BookCreateComponent } from './components/book/book-create/book-create.component';
+import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
 
 
 const routes: Routes = [{
@@ -11,14 +11,14 @@ const routes: Routes = [{
   component: HomeComponent,
 }, {
   path: "books",
-  component: ProductCrudComponent
+  component: BookCrudComponent
 }, {
   path: "book/create",
-  component: ProductCreateComponent
+  component: BookCreateComponent
 }, 
 {
   path: "book/delete/:id",
-  component: ProductDeleteComponent
+  component: BookDeleteComponent
 }];
 
 @NgModule({

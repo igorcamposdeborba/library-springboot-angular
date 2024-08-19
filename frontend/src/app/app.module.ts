@@ -12,22 +12,22 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './view/home/home.component';
-import { ProductCrudComponent } from './view/product-crud/product-crud.component';
+import { BookCrudComponent } from './view/book-crud/book-crud.component';
 import { RedDirective } from './directives/red.directive';
 import { ForDirective } from './directives/for.directive';
-import { ProductCreateComponent } from './components/product/product-create/product-create.component';
+import { BookCreateComponent } from './components/book/book-create/book-create.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ProductReadComponent } from './components/product/product-read/product-read.component';
+import { BookReadComponent } from './components/book/book-read/book-read.component';
 import { MatTableModule } from '@angular/material/table'
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 // import { ProductUpdateComponent } from './components/product/product-update/product-update.component';
-import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
+import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
 
 registerLocaleData (localePt);
 
@@ -38,13 +38,13 @@ registerLocaleData (localePt);
     FooterComponent,
     NavComponent,
     HomeComponent,
-    ProductCrudComponent,
+    BookCrudComponent,
     RedDirective,
     ForDirective,
-    ProductCreateComponent,
-    ProductReadComponent,
+    BookCreateComponent,
+    BookReadComponent,
     // ProductUpdateComponent,
-    ProductDeleteComponent
+    BookDeleteComponent
   ],
   imports: [
     BrowserModule,
