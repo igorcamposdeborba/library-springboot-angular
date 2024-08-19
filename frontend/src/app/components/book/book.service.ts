@@ -61,8 +61,9 @@ export class BookService {
     );
   }
   
-  errorHandler(e: any) : Observable<any> {
-    this.showMessage('Ocorreu um erro', true);
+  errorHandler(error: any) : Observable<any> {
+    this.showMessage(`Erro: ${error.message}`, true);
+    console.log(error);
     return EMPTY;
   }
 }

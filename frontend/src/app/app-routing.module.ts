@@ -4,7 +4,8 @@ import { HomeComponent } from './view/home/home.component';
 import { BookCrudComponent } from './view/book-crud/book-crud.component';
 import { BookCreateComponent } from './components/book/book-create/book-create.component';
 import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
-
+import {HttpErrorInterceptor } from './config/HttpErrorInterceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const routes: Routes = [{
   path: "",
@@ -23,6 +24,9 @@ const routes: Routes = [{
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+  ],
 })
 export class AppRoutingModule { }
