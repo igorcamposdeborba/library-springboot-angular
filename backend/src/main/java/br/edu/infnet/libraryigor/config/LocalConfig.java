@@ -61,10 +61,10 @@ public class LocalConfig {
 
         try {
             // Instanciar classes
-            readBooks();
-            readAssociate();
-            readStudent();
-            readLoans();
+            readBooks("src/main/resources/init/book.csv");
+            readAssociate("src/main/resources/init/associate.csv");
+            readStudent("src/main/resources/init/student.csv");
+            readLoans("src/main/resources/init/loan.csv");
 
             // Atualizar a biblioteca com todos os livros e usuários
 //            library = new Library(bookMap, userMap);
@@ -118,30 +118,30 @@ public class LocalConfig {
 
         return Optional.of(library);
     }
-    @EventListener(ApplicationReadyEvent.class) // disparar evento apos aplicacao estiver totalemente iniciada
-    public void printDB() {
-        // Printar dados em tela
-        try {
-            Unirest.setTimeouts(3000, 3000);// espera pela conexao e resposta 3 segundos
-            HttpResponse<String> bookResponse = Unirest.get("http://localhost:8080/book").asString();
-            HttpResponse<String> userResponse = Unirest.get("http://localhost:8080/user").asString();
-            HttpResponse<String> bookInsertResponse = Unirest.post("http://localhost:8080/book/single")
-                    .header("Content-Type", "application/json")
-                    .body("{\r\n    \"title\": \"O Senhor dos Anéis\",\r\n    \"author\": \"J.R.R. Tolkien\",\r\n    \"yearPublication\": \"1954-07-29\",\r\n    \"price\": 4.00,\r\n    \"libraryId\": 1\r\n}").asString();
-            HttpResponse<String> loanResponse = Unirest.get("http://localhost:8080/loan").asString();
-
-            System.out.println("BOOK findAll: " + bookResponse.getBody() + ". status " + bookResponse.getStatus());
-            System.out.println("USER findAll: " + userResponse.getBody() + ". status " + userResponse.getStatus());
-            System.out.println("BOOK insert: " + bookInsertResponse.getStatus());
-            System.out.println("LOAN findAll: " + loanResponse.getBody() + ". status " + loanResponse.getStatus());
-
-        } catch (UnirestException e){
-            e.printStackTrace();
-        }
-    }
+//    @EventListener(ApplicationReadyEvent.class) // disparar evento apos aplicacao estiver totalemente iniciada
+//    public void printDB() {
+//        // Printar dados em tela
+//        try {
+//            Unirest.setTimeouts(3000, 3000);// espera pela conexao e resposta 3 segundos
+//            HttpResponse<String> bookResponse = Unirest.get("http://localhost:8080/book").asString();
+//            HttpResponse<String> userResponse = Unirest.get("http://localhost:8080/user").asString();
+//            HttpResponse<String> bookInsertResponse = Unirest.post("http://localhost:8080/book/single")
+//                    .header("Content-Type", "application/json")
+//                    .body("{\r\n    \"title\": \"O Senhor dos Anéis\",\r\n    \"author\": \"J.R.R. Tolkien\",\r\n    \"yearPublication\": \"1954-07-29\",\r\n    \"price\": 4.00,\r\n    \"libraryId\": 1\r\n}").asString();
+//            HttpResponse<String> loanResponse = Unirest.get("http://localhost:8080/loan").asString();
+//
+//            System.out.println("BOOK findAll: " + bookResponse.getBody() + ". status " + bookResponse.getStatus());
+//            System.out.println("USER findAll: " + userResponse.getBody() + ". status " + userResponse.getStatus());
+//            System.out.println("BOOK insert: " + bookInsertResponse.getStatus());
+//            System.out.println("LOAN findAll: " + loanResponse.getBody() + ". status " + loanResponse.getStatus());
+//
+//        } catch (UnirestException e){
+//            e.printStackTrace();
+//        }
+//    }
     @Transactional
-    public void readBooks() throws IOException {
-        String filePath = "src/main/resources/init/book.csv";
+    public void readBooks(String path) throws IOException {
+        String filePath = path;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // header
@@ -162,13 +162,13 @@ public class LocalConfig {
                 );
                 bookMap.put(id, book);
             }
-            bookRepository.saveAll(bookMap.values());
+                bookRepository.saveAll(bookMap.values());
         }
     }
 
     @Transactional
-    public void readAssociate() throws IOException {
-        String filePath = "src/main/resources/init/associate.csv";
+    public void readAssociate(String path) throws IOException {
+        String filePath = path;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // header
@@ -189,8 +189,8 @@ public class LocalConfig {
     }
 
     @Transactional
-    public void readStudent() throws IOException {
-        String filePath = "src/main/resources/init/student.csv";
+    public void readStudent(String path) throws IOException {
+        String filePath = path;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // header
@@ -212,8 +212,8 @@ public class LocalConfig {
     }
 
     @Transactional
-    public void readLoans() throws IOException {
-        String filePath = "src/main/resources/init/loan.csv";
+    public void readLoans(String path) throws IOException {
+        String filePath = path;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // header
