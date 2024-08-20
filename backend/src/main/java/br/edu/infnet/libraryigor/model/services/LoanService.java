@@ -12,6 +12,8 @@ import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.repositories.BookRepository;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
+import br.edu.infnet.libraryigor.model.repositories.UserRepository;
+import br.edu.infnet.libraryigor.model.services.common.LoanUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
@@ -37,6 +39,8 @@ public class LoanService {
     private BookService bookService;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<LoanDTO> findAll(){
         List<Loan> loanList = loanRepository.findAll(); // buscar no banco de dados
@@ -51,9 +55,33 @@ public class LoanService {
         if (Objects.nonNull(loanDTO.getBookId()) && Objects.nonNull(loanDTO.getUserId())) {
             LoanRecord loanRecordId = new LoanRecord(loanDTO.getBookId(), loanDTO.getUserId());
 
-            Optional<Loan> loan = loanRepository.findById(loanRecordId);
-            if (loan.isPresent()) {
+            Optional<Loan> loanDatabase = loanRepository.findById(loanRecordId);
+            if (loanDatabase.isPresent()) {
                 throw new DataIntegrityViolationException("Já existe um emprestimo cadastrado para este usuário");
+            }
+            // Validar se já existe o empréstimo do livro para o usuário no banco de dados
+//            Optional<Book> bookDatabase = bookRepository.findById(loanDTO.getBookId());
+//            Optional<Users> userDatabase = userRepository.findById(loanDTO.getUserId());
+//            if (bookDatabase.isPresent() &&
+//                ! loanDTO.getUserId().equals(userDatabase.get().getId()) ) {
+//                List<LoanDTO> loansDatabase = this.findAll(); // Todos os empréstimos do livro no banco de dados
+//
+//                for (LoanDTO existingLoan : loansDatabase) {
+//                    if (LoanUtils.isOverlapping(existingLoan, loanDTO)) {
+//                        throw new DataIntegrityViolationException("Já existe um empréstimo nesse período para este livro.");
+//                    }
+//                }
+//            }
+        }
+        // Validar se já existe o empréstimo do livro para o usuário no banco de dados
+        if (Objects.nonNull(loanDTO.getBookId()) && Objects.nonNull(loanDTO.getUserId())) {
+            List<Loan> existingLoans = loanRepository.findBookByIdAndPeriod(
+                    loanDTO.getBookId(),
+                    loanDTO.getEffectiveTo(),
+                    loanDTO.getEffectiveFrom());
+
+            if (!existingLoans.isEmpty()) {
+                throw new DataIntegrityViolationException("Já existe um empréstimo nesse período para este livro.");
             }
         }
 
