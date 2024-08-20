@@ -4,10 +4,16 @@ import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Library;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
+import br.edu.infnet.libraryigor.model.entities.client.Associate;
+import br.edu.infnet.libraryigor.model.entities.client.Student;
+import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
+import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.repositories.BookRepository;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,11 @@ public class LoanService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookService bookService;
+    @Autowired
+    private UsersService usersService;
+
     public List<LoanDTO> findAll(){
         List<Loan> loanList = loanRepository.findAll(); // buscar no banco de dados
         // converter a lista de classe para DTO
@@ -36,10 +47,28 @@ public class LoanService {
     @Transactional
     public LoanDTO insert(@Valid LoanDTO loanDTO) { // @Valid: validar objeto (annotations e atributos)
 
-        Optional<Loan> loan = loanRepository.findById(loanDTO.getId());
-        if (loan.isPresent()) {
-            throw new DataIntegrityViolationException("Já existe um emprestimo cadastrado para este usuário");
+        // Validar se já existe o empréstimo do livro para o usuário no banco de dados
+        if (Objects.nonNull(loanDTO.getBookId()) && Objects.nonNull(loanDTO.getUserId())) {
+            LoanRecord loanRecordId = new LoanRecord(loanDTO.getBookId(), loanDTO.getUserId());
+
+            Optional<Loan> loan = loanRepository.findById(loanRecordId);
+            if (loan.isPresent()) {
+                throw new DataIntegrityViolationException("Já existe um emprestimo cadastrado para este usuário");
+            }
         }
+
+        // Preencher o DTO com as informacoes faltantes (Book, User) baseado no id deles
+        Book bookDatabase = new Book(bookService.findById(loanDTO.getBookId()));
+        UsersDTO usersDTO = usersService.findById(loanDTO.getUserId());
+        Users usersDatabase = null;
+        if (usersDTO.getType().equals(Student.class.getSimpleName())){
+            usersDatabase = new Student(usersDTO);
+        } else if (usersDTO.getType().equals(Associate.class.getSimpleName())){
+            usersDatabase = new Associate(usersDTO);
+        }
+        loanDTO.setBook(bookDatabase);
+        loanDTO.setUsers(usersDatabase);
+
         // Mapear DTO para classe
         Loan entity = new Loan(loanDTO);
         entity = loanRepository.save(entity); // salvar no banco de dados

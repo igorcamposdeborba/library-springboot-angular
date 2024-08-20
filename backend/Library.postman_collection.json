@@ -86,6 +86,32 @@
 			"response": []
 		},
 		{
+			"name": "LOAN: create single loan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"bookId\": 3,\r\n  \"userId\": 2,\r\n  \"effectiveFrom\": \"2024-08-19\",\r\n  \"effectiveTo\": \"2024-09-02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/loan",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "BOOK: findAll",
 			"request": {
 				"method": "GET",

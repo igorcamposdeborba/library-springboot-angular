@@ -15,6 +15,10 @@ public class LoanRecord implements Serializable { // Serializable para trafegar 
         this.bookId = book.getId();
         this.userId = user.getId();
     }
+    public LoanRecord(Integer bookId, Integer userId){
+        this.bookId = bookId;
+        this.userId = userId;
+    }
 
     public LoanRecord() {} // JPA precisa de construtor vazio público para persistir no banco de dados
 

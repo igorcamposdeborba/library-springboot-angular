@@ -44,7 +44,7 @@ public class Loan implements Serializable { // Serializable para trafegar em red
         this.effectiveFrom = loan.getEffectiveFrom();
         this.effectiveTo = loan.getEffectiveTo();
 
-        this.loanId = new LoanRecord(book, users);
+        this.loanId = new LoanRecord(loan.getBookId(), loan.getUserId());
     }
     public Loan() {}
 

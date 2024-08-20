@@ -1,6 +1,7 @@
 package br.edu.infnet.libraryigor.model.entities.client;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
+import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -16,6 +17,11 @@ public class Associate extends Users {
         super(id, name, email, active);
         this.department = department;
         this.specialty = specialty;
+    }
+    public Associate(UsersDTO associate) {
+        super(associate.getId().toString(), associate.getName(), associate.getEmail(), associate.isActive());
+        this.department = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
+        this.specialty = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
     }
 
     public Associate() { super(); } // JPA precisa de construtor vazio público para persistir no banco de dados

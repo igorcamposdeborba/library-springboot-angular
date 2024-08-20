@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "book")
@@ -37,7 +38,7 @@ public class Book implements Serializable { // Serializable para trafegar em red
         this.price = price;
     }
     public Book(BookDTO bookDTO) { // converter DTO para entity
-//        this.id = bookDTO.getId();
+        this.id = Objects.nonNull(bookDTO.getId()) ? bookDTO.getId() : null;
         this.title = bookDTO.getTitle();
         this.author = bookDTO.getAuthor();
         this.yearPublication = LocalDate.parse(String.valueOf(bookDTO.getYearPublication()).replaceAll("^\"|\"$","").trim());

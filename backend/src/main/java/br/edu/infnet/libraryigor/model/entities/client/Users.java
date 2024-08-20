@@ -3,6 +3,7 @@ package br.edu.infnet.libraryigor.model.entities.client;
 import br.edu.infnet.libraryigor.model.entities.Library;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
+import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -33,6 +34,13 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
         this.name = name;
         this.email = email;
         this.active = active;
+    }
+
+    public Users(UsersDTO usersDTO) {
+        this.id = usersDTO.getId();
+        this.name = usersDTO.getName();
+        this.email = usersDTO.getEmail();
+        this.active = usersDTO.isActive();
     }
 
     public Users() {} // JPA precisa de construtor vazio público para persistir no banco de dados

@@ -30,7 +30,7 @@ class LibraryIgorApplicationTests {
     @Test
     void loadBookEntity() {
         try {
-            MockitoAnnotations.openMocks(this); // Initialize mocks
+            MockitoAnnotations.openMocks(this);
 
             List<String> expectedBookData = Arrays.asList(
                     "1,1984,George Orwell,1949-01-01,4.0",

@@ -1,5 +1,6 @@
 package br.edu.infnet.libraryigor.controller;
 
+import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
 import br.edu.infnet.libraryigor.model.services.LoanService;
@@ -50,9 +51,10 @@ public class LoanController {
     @PostMapping(produces = "application/json") // produces especifica o formato de saída para o Swagger
     public ResponseEntity<LoanDTO> insert(@Valid @RequestBody LoanDTO loanDTO){
         // Inserir pelo service no banco de dados
-        LoanDTO loan = loanService.insert(loanDTO);
+        loanService.insert(loanDTO);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(loan.getId()).toUri();
+        LoanRecord loanRecordId = new LoanRecord(loanDTO.getBookId(), loanDTO.getUserId());
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(loanRecordId).toUri();
 
         return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
     }

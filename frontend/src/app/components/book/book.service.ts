@@ -63,7 +63,6 @@ export class BookService {
   
   errorHandler(error: any) : Observable<any> {
     this.showMessage(`Erro: ${error.message}`, true);
-    console.log(error);
     return EMPTY;
   }
 }
