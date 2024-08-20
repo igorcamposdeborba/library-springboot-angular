@@ -5,6 +5,7 @@ import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,9 +20,14 @@ public class Associate extends Users {
         this.specialty = specialty;
     }
     public Associate(UsersDTO associate) {
-        super(associate.getId().toString(), associate.getName(), associate.getEmail(), associate.isActive());
-        this.department = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
-        this.specialty = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
+        super(Objects.nonNull(associate.getId()) ? associate.getId().toString() : null,
+              associate.getName(),
+              associate.getEmail(),
+              associate.isActive());
+        this.department = associate.getDepartment();
+        this.specialty = associate.getSpecialty();
+//        this.department = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
+//        this.specialty = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
     }
 
     public Associate() { super(); } // JPA precisa de construtor vazio público para persistir no banco de dados

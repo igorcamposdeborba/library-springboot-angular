@@ -25,7 +25,7 @@ public class Scheduler {
     private UserRepository userRepository;
 
     @Transactional
-    @Scheduled(cron = "0 * * * * ?") // Executa todos os dias as 3 da manha
+    @Scheduled(cron = "0 0 3 * * ?") // Executa todos os dias as 3 da manha
     public void calculateDailyPenalty() {
         System.out.println("second method Thread name = "+Thread.currentThread().getName() + " time = "+ LocalDateTime.now());
         List<Loan> loans = loanRepository.findAll();

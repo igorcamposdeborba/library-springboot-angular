@@ -3,24 +3,16 @@ package br.edu.infnet.libraryigor.model.entities.dto;
 
 import br.edu.infnet.libraryigor.Constants;
 import br.edu.infnet.libraryigor.model.entities.Loan;
-import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.client.Associate;
 import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import org.apache.commons.lang3.RegExUtils;
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // ignora atributos nulos
 public class UsersDTO implements Serializable {
@@ -33,9 +25,12 @@ public class UsersDTO implements Serializable {
     private String email;
     private boolean active;
     private String bind;
+    private String courseName;
+    private String department;
+    private String specialty;;
 
     public UsersDTO(Users user) {
-        this.id = user.getId();
+        this.id = Objects.nonNull(user.getId()) ? user.getId() : null;
         this.name = user.getName();
         this.email = user.getEmail();
         this.active = user.isActive();
@@ -59,7 +54,7 @@ public class UsersDTO implements Serializable {
     }
 
     public UsersDTO(String id, String name, String email, boolean active, Set<Loan> loans) {
-        this.id = Integer.parseInt(id);
+        this.id = Objects.nonNull(id) ? Integer.parseInt(id) : null;
         this.name = name;
         this.email = email;
         this.active = active;
@@ -94,4 +89,29 @@ public class UsersDTO implements Serializable {
     public String getBind() {
         return bind;
     }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
 }

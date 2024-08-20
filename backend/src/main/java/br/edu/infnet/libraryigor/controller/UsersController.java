@@ -1,5 +1,6 @@
 package br.edu.infnet.libraryigor.controller;
 
+import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UserEmailRequest;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.services.UsersService;
@@ -11,7 +12,9 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -65,5 +68,15 @@ public class UsersController {
         UsersDTO user = this.userService.findByEmail(request.getEmail()); // metodo personalizado no repository para consultar pelo email
 
         return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping(value = "/single", produces = "application/json") // produces especifica o formato de saída para o Swagger
+    public ResponseEntity<BookDTO> insert(@Valid @RequestBody UsersDTO userDTO){
+        // Inserir pelo service no banco de dados
+        UsersDTO user = userService.insert(userDTO);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+
+        return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
     }
 }

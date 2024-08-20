@@ -59,6 +59,16 @@ public class LoanController {
         return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
     }
 
+    @Operation(
+            description = "Deliver a book",
+            summary = "Deliver book loaned and register this on Library repository",
+            responses = {
+                    @ApiResponse(description = "Created", responseCode = "201"),
+                    @ApiResponse(description = "Bad request", responseCode = "400"),
+                    @ApiResponse(description = "Not found", responseCode = "404"),
+                    @ApiResponse(description = "Unprocessable content", responseCode = "422")
+            }
+    )
     @PostMapping(value = "/deliver", produces = "application/json") // produces especifica o formato de saída para o Swagger
     public ResponseEntity<BookDTO> deliverBook(@Valid @RequestBody LoanDTO loanDTO){
         // Devolver livro

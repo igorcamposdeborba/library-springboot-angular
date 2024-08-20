@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 @Entity
 @Table(name = "users")
@@ -30,14 +31,14 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
     private Library library;
 
     public Users(String id, String name, String email, boolean active) {
-        this.id = Integer.parseInt(id);
+        this.id = Objects.nonNull(id) ? Integer.parseInt(id) : null;
         this.name = name;
         this.email = email;
         this.active = active;
     }
 
     public Users(UsersDTO usersDTO) {
-        this.id = usersDTO.getId();
+        this.id = Objects.nonNull(usersDTO.getId()) ? usersDTO.getId() : null;
         this.name = usersDTO.getName();
         this.email = usersDTO.getEmail();
         this.active = usersDTO.isActive();
