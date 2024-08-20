@@ -69,10 +69,63 @@
 			"response": []
 		},
 		{
+			"name": "USER: create single user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"Student\",\r\n    \"courseName\": \"TI\",\r\n    \"name\": \"Igor Borba\",\r\n    \"email\": \"igor2@hotmail.com\",\r\n    \"active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user/single",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"single"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "LOAN: findAll",
 			"request": {
 				"method": "GET",
 				"header": [],
+				"url": {
+					"raw": "{{host}}/loan",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOAN: create single loan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"bookId\": 3,\r\n  \"userId\": 2,\r\n  \"effectiveFrom\": \"2023-04-01\",\r\n  \"effectiveTo\": \"2023-05-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{host}}/loan",
 					"host": [
