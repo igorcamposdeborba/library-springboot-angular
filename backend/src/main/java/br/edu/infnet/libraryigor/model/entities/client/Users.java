@@ -71,6 +71,10 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
         this.library = library;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "USER{" +

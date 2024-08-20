@@ -22,6 +22,7 @@ public class LoanDTO implements Serializable {
     private Users users;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;
+    private boolean isDelivered;
 
     public LoanDTO(Loan loan) {
         this.bookId = loan.getLoanId().getBookId();
@@ -30,6 +31,7 @@ public class LoanDTO implements Serializable {
         this.effectiveFrom = loan.getEffectiveFrom();
         this.effectiveTo = loan.getEffectiveTo();
         this.bookTitle = loan.getBook().getTitle().toString();
+        this.isDelivered = loan.isDelivered();
         this.book = loan.getBook();
         this.users = loan.getUser();
     }
@@ -50,6 +52,14 @@ public class LoanDTO implements Serializable {
         return effectiveTo;
     }
 
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        isDelivered = delivered;
+    }
+
     public Users getUsers() {
         return users;
     }
@@ -61,7 +71,6 @@ public class LoanDTO implements Serializable {
     public void setBook(Book book) {
         this.book = book;
     }
-
     public void setUsers(Users users) {
         this.users = users;
     }

@@ -28,14 +28,15 @@ public class Loan implements Serializable { // Serializable para trafegar em red
 
     @Nonnull // nao permite null
     private LocalDate effectiveFrom;
-    @Nonnull
     private LocalDate effectiveTo;
+    private boolean isDelivered;
 
     public Loan(Users user, Book book, LocalDate effectiveFrom, LocalDate effectiveTo) {
         this.users = user;
         this.book = book;
         this.effectiveFrom = effectiveFrom;
         this.effectiveTo = effectiveTo;
+        this.isDelivered = false;
 
         this.loanId = new LoanRecord(book, user);
     }
@@ -44,6 +45,7 @@ public class Loan implements Serializable { // Serializable para trafegar em red
         this.book = loan.getBook();
         this.effectiveFrom = loan.getEffectiveFrom();
         this.effectiveTo = loan.getEffectiveTo();
+        this.isDelivered = false;
 
         this.loanId = new LoanRecord(loan.getBookId(), loan.getUserId());
     }
@@ -76,6 +78,18 @@ public class Loan implements Serializable { // Serializable para trafegar em red
 
     public LoanRecord getLoanId() {
         return loanId;
+    }
+
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void setDelivered() {
+        isDelivered = true;
+    }
+
+    public void setLoanId(LoanRecord loanId) {
+        this.loanId = loanId;
     }
 
     @Override

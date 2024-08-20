@@ -1,28 +1,20 @@
 package br.edu.infnet.libraryigor.model.services;
 
 import br.edu.infnet.libraryigor.model.entities.Book;
-import br.edu.infnet.libraryigor.model.entities.Library;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.client.Associate;
 import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
-import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
-import br.edu.infnet.libraryigor.model.repositories.BookRepository;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
-import br.edu.infnet.libraryigor.model.services.common.LoanUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,9 +24,6 @@ import java.util.stream.Collectors;
 public class LoanService {
     @Autowired
     private LoanRepository loanRepository; // injetar instancia do repository para buscar do banco de dados via JPA
-    @Autowired
-    private BookRepository bookRepository;
-
     @Autowired
     private BookService bookService;
     @Autowired
@@ -59,19 +48,6 @@ public class LoanService {
             if (loanDatabase.isPresent()) {
                 throw new DataIntegrityViolationException("Já existe um emprestimo cadastrado para este usuário");
             }
-            // Validar se já existe o empréstimo do livro para o usuário no banco de dados
-//            Optional<Book> bookDatabase = bookRepository.findById(loanDTO.getBookId());
-//            Optional<Users> userDatabase = userRepository.findById(loanDTO.getUserId());
-//            if (bookDatabase.isPresent() &&
-//                ! loanDTO.getUserId().equals(userDatabase.get().getId()) ) {
-//                List<LoanDTO> loansDatabase = this.findAll(); // Todos os empréstimos do livro no banco de dados
-//
-//                for (LoanDTO existingLoan : loansDatabase) {
-//                    if (LoanUtils.isOverlapping(existingLoan, loanDTO)) {
-//                        throw new DataIntegrityViolationException("Já existe um empréstimo nesse período para este livro.");
-//                    }
-//                }
-//            }
         }
         // Validar se já existe o empréstimo do livro para o usuário no banco de dados
         if (Objects.nonNull(loanDTO.getBookId()) && Objects.nonNull(loanDTO.getUserId())) {
@@ -101,5 +77,11 @@ public class LoanService {
         Loan entity = new Loan(loanDTO);
         entity = loanRepository.save(entity); // salvar no banco de dados
         return new LoanDTO(entity); // retornar o que foi salvo no banco de dados
+    }
+
+    public void deliverBook(LoanDTO loanDTO){
+        Loan loan = loanRepository.findById(new LoanRecord(loanDTO.getBookId(), loanDTO.getUserId())).get();
+        loan.setDelivered();
+        loanRepository.save(loan);
     }
 }
