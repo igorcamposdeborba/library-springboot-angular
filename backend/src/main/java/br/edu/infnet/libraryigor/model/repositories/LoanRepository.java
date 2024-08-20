@@ -15,7 +15,8 @@ import java.util.List;
 public interface LoanRepository extends JpaRepository<Loan, LoanRecord> { // classe e primaryKey
 
     // JPQL para consulta personalizada no banco de dados de períodos sobrepostos de um emprestimo de livro
-    @Query("SELECT l FROM Loan l WHERE l.book.id = :bookId AND l.effectiveFrom <= :effectiveTo AND l.effectiveTo >= :effectiveFrom")
+    @Query("SELECT l FROM Loan l WHERE l.book.id = :bookId " +
+            "AND l.effectiveFrom <= :effectiveTo AND l.effectiveTo >= :effectiveFrom")
     List<Loan> findBookByIdAndPeriod(
         @Param("bookId") Integer bookId,
         @Param("effectiveTo") LocalDate effectiveTo,

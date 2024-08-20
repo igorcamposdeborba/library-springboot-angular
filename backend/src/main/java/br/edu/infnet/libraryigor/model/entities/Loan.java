@@ -28,6 +28,7 @@ public class Loan implements Serializable { // Serializable para trafegar em red
 
     @Nonnull // nao permite null
     private LocalDate effectiveFrom;
+    @Nonnull
     private LocalDate effectiveTo;
 
     public Loan(Users user, Book book, LocalDate effectiveFrom, LocalDate effectiveTo) {
