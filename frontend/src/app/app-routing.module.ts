@@ -9,6 +9,7 @@ import { UsersCreateComponent } from './components/users/users-create/users-crea
 import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
 import { HttpErrorInterceptor } from './config/HttpErrorInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BookUpdateComponent } from './components/book/book-update/book-update.component';
 
 const routes: Routes = [{
   path: "",
@@ -19,7 +20,10 @@ const routes: Routes = [{
 }, {
   path: "book/create",
   component: BookCreateComponent
-}, 
+}, {
+  path: "book/update/:id",
+  component: BookUpdateComponent
+},
 {
   path: "book/delete/:id",
   component: BookDeleteComponent

@@ -61,6 +61,14 @@ public class BookDTO implements Serializable {
         this.price = price;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setLibraryId(Integer libraryId) {
+        this.libraryId = libraryId;
+    }
+
     public Integer getLibraryId() {
         return libraryId;
     }

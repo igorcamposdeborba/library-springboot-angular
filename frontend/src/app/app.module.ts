@@ -29,7 +29,7 @@ import { UsersReadComponent } from './components/users/users-read/users-read.com
 import { MatTableModule } from '@angular/material/table'
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
-// import { ProductUpdateComponent } from './components/product/product-update/product-update.component';
+import { BookUpdateComponent } from './components/book/book-update/book-update.component';
 import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
 import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
 import { MatOptionModule } from '@angular/material/core';
@@ -50,7 +50,7 @@ registerLocaleData (localePt);
     ForDirective,
     BookCreateComponent,
     BookReadComponent,
-    // ProductUpdateComponent,
+    BookUpdateComponent,
     BookDeleteComponent,
     UsersCreateComponent,
     UsersReadComponent,

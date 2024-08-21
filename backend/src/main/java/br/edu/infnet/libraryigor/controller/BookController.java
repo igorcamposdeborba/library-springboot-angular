@@ -96,6 +96,23 @@ public class BookController {
     }
 
     @Operation(
+            summary = "Updates an existing book",
+            description = "Updates the specified book with the provided details.",
+            responses = {
+                    @ApiResponse(description = "Book updated successfully", responseCode = "200"),
+                    @ApiResponse(description = "Book not found", responseCode = "404"),
+                    @ApiResponse(description = "Validation error", responseCode = "422")
+            }
+    )
+    @PutMapping(value = ID, produces = "application/json")
+    public ResponseEntity<BookDTO> update(@PathVariable @Valid String id, @Valid @RequestBody BookDTO bookDTO){
+        // Inserir pelo service no banco de dados
+        BookDTO updatedBook = bookService.update(id, bookDTO);
+
+        return ResponseEntity.ok().body(updatedBook); // retornar o usuário atualizado
+    }
+
+    @Operation(
             description = "Delete a book by Id",
             summary = "The book is going to delete by Id from Library repository",
             responses = {

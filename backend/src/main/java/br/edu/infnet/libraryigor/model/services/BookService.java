@@ -68,6 +68,32 @@ public class BookService {
     }
 
     @Transactional
+    public BookDTO update(String idInput, BookDTO bookDTO) {
+        // Converter String para Integer id
+        Integer id = Integer.parseInt(idInput);
+
+        Optional<Book> bookDatabase = Optional.ofNullable(bookRepository.findById(id)
+                                                    .orElseThrow(() -> new ObjectNotFoundException(
+                                                     Constants.NOT_FOUND_BOOK, Optional.of(bookDTO.getId()))));
+        Library library = libraryRepository.findById(bookDTO.getLibraryId()).stream().findAny().get();
+
+        // Validar se o id passado é o mesmo que está no banco de dados para evitar que o usuário altere o id
+        if (bookDatabase.get().getId().equals(id)) {
+            bookDTO.setId(id);
+        }
+
+        // Mapear DTO para classe
+        Book entity = new Book(bookDTO);
+        entity.setLibrary(library);
+
+        // Salvar no banco de dados
+        bookRepository.save(entity);
+
+        // Retornar para a requisição o User atualizado
+        return new BookDTO(entity);
+    }
+
+    @Transactional
     public void deleteById(Integer id) {
         // Deletar no banco de dados
         bookRepository.deleteById(id);
