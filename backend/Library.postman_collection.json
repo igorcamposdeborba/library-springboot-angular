@@ -96,6 +96,33 @@
 			"response": []
 		},
 		{
+			"name": "USER: deleteById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"Student\",\r\n    \"courseName\": \"TI\",\r\n    \"name\": \"Igor Borba\",\r\n    \"email\": \"igor2@hotmail.com\",\r\n    \"active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "LOAN: findAll",
 			"request": {
 				"method": "GET",

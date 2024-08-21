@@ -69,7 +69,6 @@ public class BookService {
 
     @Transactional
     public void deleteById(Integer id) {
-
         // Deletar no banco de dados
         bookRepository.deleteById(id);
     }

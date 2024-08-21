@@ -4,7 +4,10 @@ import { HomeComponent } from './view/home/home.component';
 import { BookCrudComponent } from './view/book-crud/book-crud.component';
 import { BookCreateComponent } from './components/book/book-create/book-create.component';
 import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
-import {HttpErrorInterceptor } from './config/HttpErrorInterceptor';
+import { UsersCrudComponent } from './view/users-crud/users-crud.component';
+import { UsersCreateComponent } from './components/users/users-create/users-create.component';
+import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
+import { HttpErrorInterceptor } from './config/HttpErrorInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const routes: Routes = [{
@@ -20,6 +23,16 @@ const routes: Routes = [{
 {
   path: "book/delete/:id",
   component: BookDeleteComponent
+}, {
+  path: "users",
+  component: UsersCrudComponent
+}, {
+  path: "users/create",
+  component: UsersCreateComponent
+}, 
+{
+  path: "users/delete/:id",
+  component: UsersDeleteComponent
 }];
 
 @NgModule({

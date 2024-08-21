@@ -13,9 +13,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './view/home/home.component';
 import { BookCrudComponent } from './view/book-crud/book-crud.component';
+import { UsersCrudComponent } from './view/users-crud/users-crud.component';
 import { RedDirective } from './directives/red.directive';
 import { ForDirective } from './directives/for.directive';
 import { BookCreateComponent } from './components/book/book-create/book-create.component';
+import { UsersCreateComponent } from './components/users/users-create/users-create.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,11 +25,15 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BookReadComponent } from './components/book/book-read/book-read.component';
+import { UsersReadComponent } from './components/users/users-read/users-read.component';
 import { MatTableModule } from '@angular/material/table'
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 // import { ProductUpdateComponent } from './components/product/product-update/product-update.component';
 import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
+import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
+import { MatOptionModule } from '@angular/material/core';
+
 
 registerLocaleData (localePt);
 
@@ -39,12 +45,16 @@ registerLocaleData (localePt);
     NavComponent,
     HomeComponent,
     BookCrudComponent,
+    UsersCrudComponent,
     RedDirective,
     ForDirective,
     BookCreateComponent,
     BookReadComponent,
     // ProductUpdateComponent,
-    BookDeleteComponent
+    BookDeleteComponent,
+    UsersCreateComponent,
+    UsersReadComponent,
+    UsersDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +70,8 @@ registerLocaleData (localePt);
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatOptionModule
   ],
   providers: [{
     provide: LOCALE_ID,

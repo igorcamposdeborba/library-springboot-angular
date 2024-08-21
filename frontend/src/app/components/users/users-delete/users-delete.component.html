@@ -1,0 +1,40 @@
+<mat-card>
+    <mat-card-title>Excluir usuário</mat-card-title>
+
+    <div *ngIf="!users">Carregando usuários...</div>
+
+    <form *ngIf="users">  
+        <mat-form-field>  <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
+            <input matInput placeholder="tipo de usuário" [(ngModel)]="users.type" name="name" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Nome" [(ngModel)]="users.name" name="name" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="E-mail" [(ngModel)]="users.email" name="email" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Status do cadastro" [(ngModel)]="users.active" name="active" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Informação" [(ngModel)]="users.bind" name="bind" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" [(ngModel)]="users.libraryId" name="yearPublication" disabled>
+        </mat-form-field>
+    </form>
+
+    <button mat-raised-button (click)="deleteusers()" color="warn">
+        Excluir
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>

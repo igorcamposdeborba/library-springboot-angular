@@ -21,6 +21,8 @@ import java.util.List;
 @RequestMapping(value = "/user") // rota
 @Tag(name = "User", description = "Manage Users") // descricao no swagger
 public class UsersController {
+    private static final String ID = "/{id}";
+
     @Autowired
     private UsersService userService;
 
@@ -70,6 +72,14 @@ public class UsersController {
         return ResponseEntity.ok().body(user);
     }
 
+    @Operation(
+            description = "Add new user",
+            summary = "Add new user to Library repository",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200"),
+                    @ApiResponse(description = "Not found", responseCode = "404")
+            }
+    )
     @PostMapping(value = "/single", produces = "application/json") // produces especifica o formato de saída para o Swagger
     public ResponseEntity<BookDTO> insert(@Valid @RequestBody UsersDTO userDTO){
         // Inserir pelo service no banco de dados
@@ -78,5 +88,12 @@ public class UsersController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 
         return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
+    }
+
+    @DeleteMapping (value = ID, produces = "application/json") // id no path da url
+    public ResponseEntity<Void> delete(@PathVariable @Valid Integer id){
+        userService.deleteById(id);
+
+        return ResponseEntity.noContent().build(); // retornar status created 201 com uri do objeto criado
     }
 }

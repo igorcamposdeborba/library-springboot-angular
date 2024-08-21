@@ -9,6 +9,7 @@ import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.repositories.LibraryRepository;
+import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -30,6 +31,8 @@ public class UsersService {
     private UserRepository userRepository; // injetar instancia do repository para buscar do banco de dados via JPA
     @Autowired
     private LibraryRepository libraryRepository;
+    @Autowired
+    private LoanRepository loanRepository;
 
     public List<UsersDTO> findAll(){
         List<Users> usersList = userRepository.findAll(Sort.by("name")); // buscar no banco de dados e ordenar por nome
@@ -77,5 +80,12 @@ public class UsersService {
 
         entity = userRepository.save(entity); // salvar no banco de dados
         return new UsersDTO(entity); // retornar o que foi salvo no banco de dados
+    }
+
+    @Transactional
+    public void deleteById(Integer id) {
+        // !todo: cria validacao para nao excluir livro alugado neste periodo atual
+        // Deletar no banco de dados
+        userRepository.deleteById(id);
     }
 }

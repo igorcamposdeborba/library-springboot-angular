@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-title>Novo usuário</mat-card-title>
+
+    <form>
+        <mat-form-field> <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
+            <input matInput placeholder="Tipo de usuário" [(ngModel)]="users.type" name="type">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Nome" [(ngModel)]="users.name" name="name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="E-mail" [(ngModel)]="users.email" name="email">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" [(ngModel)]="users.libraryId" name="libraryId">
+        </mat-form-field>
+    </form>
+
+    <button mat-raised-button (click)="createUsers()" color="primary">
+        Salvar
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>
