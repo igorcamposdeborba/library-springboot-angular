@@ -60,19 +60,6 @@ public class BookService {
         return new BookDTO(entity); // retornar o que foi salvo no banco de dados
     }
 
-//    @Transactional
-//    public List<BookDTO> insertAll(@Valid List<BookDTO> bookDTO) {
-//        // Mapear DTO para classe
-//        List<Book> entities = bookDTO.stream().map(book -> new Book(book)).collect(Collectors.toList());
-//
-//        entities = bookRepository.saveAll(entities); // salvar no banco de dados
-//
-//        // Mapear as entities salvas de volta para DTO
-//        List<BookDTO> savedDTOs = entities.stream()
-//                                            .map(entity -> new BookDTO(entity))
-//                                            .collect(Collectors.toList());
-//        return savedDTOs; // retornar o que foi salvo no banco de dados
-//    }
     @Transactional
     public List<BookDTO> insertAll(@Valid List<BookDTO> bookDTO) {
         List<BookDTO> savedDTOs = bookDTO.stream().map(book -> insert(book)).collect(Collectors.toList());

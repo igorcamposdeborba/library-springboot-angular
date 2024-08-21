@@ -1,10 +1,7 @@
 package br.edu.infnet.libraryigor.controller;
 
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
-import br.edu.infnet.libraryigor.model.entities.dto.LibraryDTO;
-import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.services.BookService;
-import br.edu.infnet.libraryigor.model.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

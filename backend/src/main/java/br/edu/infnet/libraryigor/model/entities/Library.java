@@ -25,6 +25,7 @@ public class Library implements Serializable { // Serializable para trafegar em 
     @OneToMany(mappedBy = "library", cascade = CascadeType.ALL) // cacade: aplicar tambem para as classes filhas
     private List<Book> books;                           // mappedBy: quem gerencia a chave estrangeira é Library
 
+    @JsonManagedReference // lado que gerancia o relacionamento de duas vias. Evita recursao infinita
     @OneToMany(mappedBy = "library", cascade = CascadeType.ALL) // cacade: aplicar tambem para as classes filhas
     private List<Users> users;                          // mappedBy: quem gerencia a chave estrangeira é Library
 

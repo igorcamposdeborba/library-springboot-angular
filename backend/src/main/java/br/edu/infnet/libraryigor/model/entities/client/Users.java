@@ -1,15 +1,14 @@
 package br.edu.infnet.libraryigor.model.entities.client;
 
 import br.edu.infnet.libraryigor.model.entities.Library;
-import br.edu.infnet.libraryigor.model.entities.Loan;
-import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED) // Cada subclasse tem sua propria tabela no banco de dados
@@ -28,6 +27,7 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "library_id")
+    @JsonBackReference // lado gerenciado no relacionamento de duas vias. Evita recursao infinita
     private Library library;
 
     public Users(String id, String name, String email, boolean active) {
@@ -66,6 +66,10 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
     }
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Library getLibrary() {
+        return library;
     }
 
     public void setLibrary(Library library) {

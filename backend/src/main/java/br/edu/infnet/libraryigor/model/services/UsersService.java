@@ -8,6 +8,7 @@ import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
+import br.edu.infnet.libraryigor.model.repositories.LibraryRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,6 +28,8 @@ public class UsersService {
 
     @Autowired
     private UserRepository userRepository; // injetar instancia do repository para buscar do banco de dados via JPA
+    @Autowired
+    private LibraryRepository libraryRepository;
 
     public List<UsersDTO> findAll(){
         List<Users> usersList = userRepository.findAll(Sort.by("name")); // buscar no banco de dados e ordenar por nome
@@ -51,6 +54,8 @@ public class UsersService {
             throw new DataIntegrityViolationException("Já existe este usuario cadastrado com este e-mail");
         }
 
+        Library library = libraryRepository.findById(userDTO.getLibraryId()).stream().findAny().get();
+
         // Mapear DTO para classe
         Users entity = null;
         switch (userDTO.getType()){
@@ -58,12 +63,14 @@ public class UsersService {
                 entity = new Student(userDTO);
                 ((Student) entity).setPendingPenaltiesAmount(Constants.ZERO);
                 ((Student) entity).setCourseName(userDTO.getCourseName());
+                entity.setLibrary(library);
                 break;
             }
             case Constants.ASSOCIATE -> {
                 entity = new Associate(userDTO);
                 ((Associate) entity).setDepartment(userDTO.getDepartment());
                 ((Associate) entity).setSpecialty(userDTO.getSpecialty());
+                entity.setLibrary(library);
                 break;
             }
         }
