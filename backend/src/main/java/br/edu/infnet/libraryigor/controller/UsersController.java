@@ -90,6 +90,23 @@ public class UsersController {
         return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
     }
 
+    @Operation(
+            summary = "Updates an existing user",
+            description = "Updates the specified user with the provided details.",
+            responses = {
+                    @ApiResponse(description = "User updated successfully", responseCode = "200"),
+                    @ApiResponse(description = "User not found", responseCode = "404"),
+                    @ApiResponse(description = "Validation error", responseCode = "422")
+            }
+    )
+    @PutMapping(value = ID, produces = "application/json")
+    public ResponseEntity<UsersDTO> update(@PathVariable @Valid String id, @Valid @RequestBody UsersDTO userDTO){
+        // Inserir pelo service no banco de dados
+        UsersDTO updatedUser = userService.update(id, userDTO);
+
+        return ResponseEntity.ok().body(updatedUser); // retornar o usuário atualizado
+    }
+
     @DeleteMapping (value = ID, produces = "application/json") // id no path da url
     public ResponseEntity<Void> delete(@PathVariable @Valid Integer id){
         userService.deleteById(id);

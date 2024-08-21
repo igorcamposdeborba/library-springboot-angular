@@ -124,4 +124,8 @@ public class UsersDTO implements Serializable {
     public Integer getLibraryId() {
         return libraryId;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

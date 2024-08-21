@@ -83,6 +83,45 @@ public class UsersService {
     }
 
     @Transactional
+    public UsersDTO update(String idInput, UsersDTO userDTO) {
+        // Converter String para Integer id
+        Integer id = Integer.parseInt(idInput);
+
+        Optional<Users> userDatabase = Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(
+                        Constants.NOT_FOUND_BOOK, Optional.of(userDTO.getId()))));
+        Library library = libraryRepository.findById(userDTO.getLibraryId()).stream().findAny().get();
+
+        // Validar se o id passado é o mesmo que está no banco de dados para evitar que o usuário altere o id
+        if (userDatabase.get().getId().equals(id)) {
+            userDTO.setId(id);
+        }
+
+        // Mapear DTO para classe
+        Users entity = null;
+        switch (userDTO.getType()){
+            case Constants.STUDENT -> {
+                entity = new Student(userDTO);
+                // Todo: bug: esse casting faz com que o usuário não possa trocar de Associata <-> para Student
+                ((Student) entity).setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
+                ((Student) entity).setCourseName(userDTO.getCourseName());
+                entity.setLibrary(library);
+                break;
+            }
+            case Constants.ASSOCIATE -> {
+                entity = new Associate(userDTO);
+                ((Associate) entity).setDepartment(userDTO.getDepartment());
+                ((Associate) entity).setSpecialty(userDTO.getSpecialty());
+                entity.setLibrary(library);
+                break;
+            }
+        }
+
+        entity = userRepository.save(entity); // salvar no banco de dados
+        return new UsersDTO(entity); // retornar o que foi salvo no banco de dados
+    }
+
+    @Transactional
     public void deleteById(Integer id) {
         // !todo: cria validacao para nao excluir livro alugado neste periodo atual
         // Deletar no banco de dados
