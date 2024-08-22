@@ -4,6 +4,7 @@ table {
 
 .edit > i {
     color: #d9cd26;
+    margin-right: 10px;
 }
 
 .delete > i {

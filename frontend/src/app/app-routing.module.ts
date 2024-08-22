@@ -7,6 +7,7 @@ import { BookDeleteComponent } from './components/book/book-delete/book-delete.c
 import { UsersCrudComponent } from './view/users-crud/users-crud.component';
 import { UsersCreateComponent } from './components/users/users-create/users-create.component';
 import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
+import { UsersUpdateComponent } from './components/users/users-update/users-update.component';
 import { HttpErrorInterceptor } from './config/HttpErrorInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookUpdateComponent } from './components/book/book-update/book-update.component';
@@ -33,7 +34,10 @@ const routes: Routes = [{
 }, {
   path: "users/create",
   component: UsersCreateComponent
-}, 
+}, {
+  path: "users/update/:id",
+  component: UsersUpdateComponent
+},
 {
   path: "users/delete/:id",
   component: UsersDeleteComponent

@@ -21,7 +21,7 @@ import { UsersCreateComponent } from './components/users/users-create/users-crea
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BookReadComponent } from './components/book/book-read/book-read.component';
@@ -32,6 +32,7 @@ import { registerLocaleData } from '@angular/common';
 import { BookUpdateComponent } from './components/book/book-update/book-update.component';
 import { BookDeleteComponent } from './components/book/book-delete/book-delete.component';
 import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
+import { UsersUpdateComponent } from './components/users/users-update/users-update.component';
 import { MatOptionModule } from '@angular/material/core';
 
 
@@ -54,7 +55,8 @@ registerLocaleData (localePt);
     BookDeleteComponent,
     UsersCreateComponent,
     UsersReadComponent,
-    UsersDeleteComponent
+    UsersDeleteComponent,
+    UsersUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,8 @@ registerLocaleData (localePt);
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatOptionModule
+    MatOptionModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: LOCALE_ID,

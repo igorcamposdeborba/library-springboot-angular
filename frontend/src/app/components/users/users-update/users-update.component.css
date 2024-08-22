@@ -3,11 +3,7 @@ form {
     flex-direction: column;
     margin-top: 20px;
 }
-form > div {
-    display: flex;
-    flex-direction: column;
-}
 
 button {
-    margin-right: 10px; 
+    margin: 20px 15px 0px 0px;
 }

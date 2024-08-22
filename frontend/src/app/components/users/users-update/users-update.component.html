@@ -1,0 +1,47 @@
+<mat-card>
+    <mat-card-title>Editar usuário</mat-card-title>
+
+    <div *ngIf="!users">Carregando usuários...</div>
+
+    <form *ngIf="users">
+        <mat-form-field>
+            <mat-label>Tipo de usuário</mat-label>
+            <select matNativeControl required>
+              <option *ngFor="let user of typeUser" [value]="user.value">{{user.viewValue}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field>  <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
+            <input matInput placeholder="tipo de usuário" [(ngModel)]="users.type" name="name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Nome" [(ngModel)]="users.name" name="name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="E-mail" [(ngModel)]="users.email" name="email">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Status do cadastro" [(ngModel)]="users.active" name="active">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Informação" [(ngModel)]="users.bind" name="bind">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" [(ngModel)]="users.libraryId" name="yearPublication">
+        </mat-form-field>
+    </form>
+
+    <button mat-raised-button (click)="updateUsers()" color="primary">
+        Salvar
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>

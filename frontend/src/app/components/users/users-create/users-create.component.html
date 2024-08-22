@@ -1,22 +1,47 @@
 <mat-card>
     <mat-card-title>Novo usuário</mat-card-title>
-
-    <form>
-        <mat-form-field> <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
-            <input matInput placeholder="Tipo de usuário" [(ngModel)]="users.type" name="type">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Nome" [(ngModel)]="users.name" name="name">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="E-mail" [(ngModel)]="users.email" name="email">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Id da biblioteca" [(ngModel)]="users.libraryId" name="libraryId">
-        </mat-form-field>
+    <div *ngIf="!users">Carregando usuários...</div>
+    
+    <form [formGroup]="userForm">
+          <mat-form-field>
+            <mat-label>Tipo de usuário</mat-label>
+            <select matNativeControl required formControlName="type">
+              <option *ngFor="let user of typeUser" [value]="user.value" [selected]="user.value === 'Student'">
+                {{ user.viewValue }}
+              </option>
+            </select>
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input matInput placeholder="Nome" formControlName="name" name="name">
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input matInput placeholder="E-mail" formControlName="email" name="email">
+          </mat-form-field>
+      
+          <mat-form-field *ngIf="userForm.get('type')?.value === 'Student'">
+            <input matInput placeholder="Nome do curso" formControlName="courseName">
+          </mat-form-field>
+      
+          <div *ngIf="userForm.get('type')?.value === 'Associate'">
+            <mat-form-field>
+              <input matInput placeholder="Departamento" formControlName="department">
+            </mat-form-field>
+          </div>
+          <div *ngIf="userForm.get('type')?.value === 'Associate'">
+            <mat-form-field>
+              <input matInput placeholder="Especialidade" formControlName="specialty">
+            </mat-form-field>
+          </div>
+      
+          <mat-form-field>
+            <input matInput placeholder="Id da biblioteca" formControlName="libraryId" name="libraryId">
+          </mat-form-field>
+      
     </form>
 
-    <button mat-raised-button (click)="createUsers()" color="primary">
+    <button mat-raised-button (click)="createUsers()" color="primary" [disabled]="userForm.invalid">
         Salvar
     </button>
     
