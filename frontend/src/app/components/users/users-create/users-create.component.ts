@@ -14,14 +14,6 @@ export class UsersCreateComponent implements OnInit {
 
   userForm: FormGroup;
 
-  users: Users = {
-    type: 'Student',
-    name: '',
-    email: '',
-    active: true,
-    bind: '',
-    libraryId: 1
-  }
   typeUser: Object[] = [
     {value: 'Student', viewValue: 'Estudante'},
     {value: 'Associate', viewValue: 'Colaborador'}

@@ -1,25 +1,26 @@
 <mat-card>
     <mat-card-title>Novo livro</mat-card-title>
+    <div *ngIf="!bookForm">Carregando livros...</div>
 
-    <form>
+    <form [formGroup]="bookForm">
         <mat-form-field> <!-- ngModel é o two way data bidding, que coloca os atributos dentro do objeto -->
-            <input matInput placeholder="Título" [(ngModel)]="book.title" name="title">
+            <input matInput placeholder="Título" formControlName="title" name="title">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Autor" [(ngModel)]="book.author" name="author">
+            <input matInput placeholder="Autor" formControlName="author" name="author">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Data de publicação" [(ngModel)]="book.yearPublication" name="yearPublication">
+            <input matInput placeholder="Data de publicação" formControlName="yearPublication" name="yearPublication">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Preço (R$)" [(ngModel)]="book.price" name="price">
+            <input matInput placeholder="Preço (R$)" formControlName="price" name="price">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Id da biblioteca" [(ngModel)]="book.libraryId" name="libraryId">
+            <input matInput placeholder="Id da biblioteca" formControlName="libraryId" name="libraryId">
         </mat-form-field>
     </form>
 
-    <button mat-raised-button (click)="createBook()" color="primary">
+    <button mat-raised-button (click)="createBook()" color="primary" [disabled]="bookForm.invalid">
         Salvar
     </button>
     

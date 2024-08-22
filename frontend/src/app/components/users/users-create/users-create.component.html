@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-title>Novo usuário</mat-card-title>
-    <div *ngIf="!users">Carregando usuários...</div>
+    <div *ngIf="!userForm">Carregando usuários...</div>
     
     <form [formGroup]="userForm">
           <mat-form-field>
