@@ -56,12 +56,12 @@ export class UsersCreateComponent implements OnInit {
       this.userForm.get('courseName')?.updateValueAndValidity();
       this.userForm.get('department')?.updateValueAndValidity();
       this.userForm.get('specialty')?.updateValueAndValidity();
-    });
+    }); 
   }
 
 
   createUsers() {
-    this.usersService.create(this.users).subscribe(() => {
+    this.usersService.create(this.userForm.value).subscribe(() => {
       this.usersService.showMessage('Livro criado');
       this.router.navigate(['/users']);
     });

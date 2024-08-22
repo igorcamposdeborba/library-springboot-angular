@@ -21,7 +21,7 @@
           </mat-form-field>
       
           <mat-form-field *ngIf="userForm.get('type')?.value === 'Student'">
-            <input matInput placeholder="Nome do curso" formControlName="courseName">
+            <input matInput placeholder="Nome do CURSO" formControlName="courseName">
           </mat-form-field>
       
           <div *ngIf="userForm.get('type')?.value === 'Associate'">
