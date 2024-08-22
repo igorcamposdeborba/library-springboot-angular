@@ -60,26 +60,27 @@ public class UsersService {
         Library library = libraryRepository.findById(userDTO.getLibraryId()).stream().findAny().get();
 
         // Mapear DTO para classe
-        Users entity = null;
+        Users userEntity = null;
         switch (userDTO.getType()){
             case Constants.STUDENT -> {
-                entity = new Student(userDTO);
-                ((Student) entity).setPendingPenaltiesAmount(Constants.ZERO);
-                ((Student) entity).setCourseName(userDTO.getCourseName());
+                Student entity = new Student(userDTO);
+                entity.setPendingPenaltiesAmount(Constants.ZERO);
+                entity.setCourseName(userDTO.getCourseName());
                 entity.setLibrary(library);
-                break;
+
+                userEntity = userRepository.save(entity); // salvar no banco de dados
             }
             case Constants.ASSOCIATE -> {
-                entity = new Associate(userDTO);
-                ((Associate) entity).setDepartment(userDTO.getDepartment());
-                ((Associate) entity).setSpecialty(userDTO.getSpecialty());
+                Associate entity = new Associate(userDTO);
+                entity.setDepartment(userDTO.getDepartment());
+                entity.setSpecialty(userDTO.getSpecialty());
                 entity.setLibrary(library);
-                break;
+
+                userEntity = userRepository.save(entity); // salvar no banco de dados
             }
         }
 
-        entity = userRepository.save(entity); // salvar no banco de dados
-        return new UsersDTO(entity); // retornar o que foi salvo no banco de dados
+        return new UsersDTO(userEntity); // retornar o que foi salvo no banco de dados
     }
 
     @Transactional
@@ -98,27 +99,28 @@ public class UsersService {
         }
 
         // Mapear DTO para classe
-        Users entity = null;
+        Users user = null;
         switch (userDTO.getType()){
             case Constants.STUDENT -> {
-                entity = new Student(userDTO);
+                Student entity = new Student(userDTO);
                 // Todo: bug: esse casting faz com que o usuário não possa trocar de Associata <-> para Student
-                ((Student) entity).setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
-                ((Student) entity).setCourseName(userDTO.getCourseName());
+                entity.setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
+                entity.setCourseName(userDTO.getCourseName());
                 entity.setLibrary(library);
-                break;
+
+                user = userRepository.save(entity); // salvar no banco de dados
             }
             case Constants.ASSOCIATE -> {
-                entity = new Associate(userDTO);
-                ((Associate) entity).setDepartment(userDTO.getDepartment());
-                ((Associate) entity).setSpecialty(userDTO.getSpecialty());
+                Associate entity = new Associate(userDTO);
+                entity.setDepartment(userDTO.getDepartment());
+                entity.setSpecialty(userDTO.getSpecialty());
                 entity.setLibrary(library);
-                break;
+
+                user = userRepository.save(entity); // salvar no banco de dados
             }
         }
+        return new UsersDTO(user); // retornar o que foi salvo no banco de dados
 
-        entity = userRepository.save(entity); // salvar no banco de dados
-        return new UsersDTO(entity); // retornar o que foi salvo no banco de dados
     }
 
     @Transactional
