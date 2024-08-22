@@ -62,7 +62,7 @@ export class UsersCreateComponent implements OnInit {
 
   createUsers() {
     this.usersService.create(this.userForm.value).subscribe(() => {
-      this.usersService.showMessage('Livro criado');
+      this.usersService.showMessage('Usuário criado');
       this.router.navigate(['/users']);
     });
   }
