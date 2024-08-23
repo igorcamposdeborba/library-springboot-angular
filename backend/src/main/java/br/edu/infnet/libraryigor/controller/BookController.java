@@ -128,4 +128,21 @@ public class BookController {
 
         return ResponseEntity.noContent().build(); // retornar status created 201 com uri do objeto criado
     }
+
+    @Operation(
+            description = "Delete list of books by Id",
+            summary = "The books are going to delete by Id from Library repository",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "204"),
+                    @ApiResponse(description = "Bad request", responseCode = "400"),
+                    @ApiResponse(description = "Not found", responseCode = "404"),
+                    @ApiResponse(description = "Unprocessable content", responseCode = "422")
+            }
+    )
+    @DeleteMapping (produces = "application/json") // id no body da request
+    public ResponseEntity<Void> deleteList(@Valid @RequestBody List<Integer> id){
+        bookService.deleteByIdList(id);
+
+        return ResponseEntity.noContent().build(); // retornar status created 201 com uri do objeto criado
+    }
 }

@@ -89,9 +89,7 @@ public class UsersService {
         // Converter String para Integer id
         Integer id = Integer.parseInt(userIdInput);
 
-        Optional<Users> userDatabase = Optional.ofNullable(userRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(
-                        Constants.NOT_FOUND_BOOK, Optional.of(userDTO.getId()))));
+        Optional<Users> userDatabase = getUserByIdDatabase(id);
         Library library = libraryRepository.findById(userDTO.getLibraryId()).stream().findAny().get();
 
         // Validar se o id passado é o mesmo que está no banco de dados para evitar que o usuário altere o id
@@ -116,8 +114,8 @@ public class UsersService {
 
                 deleteUserAssociateToChangeUserType(userDatabase); // deletar usuário se for uma mudança de tipo de usuário de Associate para Student.
 
-                userRepository.save(entity); // salvar no banco de dados
-//                user = userRepository.save(entity); // salvar no banco de dados
+//                userRepository.save(entity); // salvar no banco de dados
+                user = userRepository.save(entity); // salvar no banco de dados
             }
 
             case Constants.ASSOCIATE -> {
@@ -132,12 +130,18 @@ public class UsersService {
 
                 deleteUserStudentToChangeUserType(userDatabase); // deletar usuário se for uma mudança de tipo de usuário de Student para Associate.
 
-                userRepository.save(entity); // salvar no banco de dados
-//                user = userRepository.save(entity); // salvar no banco de dados
+                user = userRepository.save(entity); // salvar no banco de dados
             }
         }
-        return userDTO;
-//        return new UsersDTO(user); // retornar o que foi salvo no banco de dados
+//        return userDTO;
+        return new UsersDTO(user); // retornar o que foi salvo no banco de dados
+    }
+
+    private Optional<Users> getUserByIdDatabase(Integer id) {
+        Optional<Users> userDatabase = Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(
+                        Constants.NOT_FOUND_BOOK, Optional.of(id))));
+        return userDatabase;
     }
 
     private void deleteUserStudentToChangeUserType(Optional<Users> userDatabase) {
@@ -180,8 +184,10 @@ public class UsersService {
 
     @Transactional
     public void deleteById(Integer id) {
-        // !todo: cria validacao para nao excluir livro alugado neste periodo atual
-        // Deletar no banco de dados
-        userRepository.deleteById(id);
+        Optional<Users> userDatabase = getUserByIdDatabase(id);
+        validateDeletion(userDatabase); // validar se não há empréstimos em aberto
+        validatePenalty(userDatabase); // validar se não há multa
+
+        userRepository.deleteById(id); // Deletar no banco de dados
     }
 }

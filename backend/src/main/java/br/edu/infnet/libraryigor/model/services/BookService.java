@@ -3,9 +3,12 @@ package br.edu.infnet.libraryigor.model.services;
 import br.edu.infnet.libraryigor.Constants;
 import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Library;
+import br.edu.infnet.libraryigor.model.entities.Loan;
+import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.repositories.BookRepository;
 import br.edu.infnet.libraryigor.model.repositories.LibraryRepository;
+import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,6 +29,8 @@ public class BookService {
     private BookRepository bookRepository; // injetar instancia do repository para buscar do banco de dados via JPA
     @Autowired
     private LibraryRepository libraryRepository;
+    @Autowired
+    private LoanRepository loanRepository;
 
     public List<BookDTO> findAll(){
         List<Book> bookList = bookRepository.findAll(Sort.by("title")); // buscar no banco de dados e ordenar por nome
@@ -97,5 +104,39 @@ public class BookService {
     public void deleteById(Integer id) {
         // Deletar no banco de dados
         bookRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteByIdList(List<Integer> booksId) {
+        validateDeletion(booksId);
+
+        // Deletar no banco de dados
+        bookRepository.deleteAllById(booksId);
+    }
+
+    private List<Book> validateDeletion(List<Integer> booksId){
+        List<Book> bookDatabase = getBooksByIdDatabase(booksId); // buscar livros pelo id no banco de dados
+
+        List<Loan> allLoansOfLibrary = loanRepository.findAll(); // buscar empréstimos de livros
+        List<Integer> idBooksBorrowed = allLoansOfLibrary.stream().flatMap(loan -> booksId.stream()
+                                                          .filter(bookId -> loan.getBook().getId().equals(bookId) &&
+                                                                  loan.getEffectiveTo().isBefore(LocalDate.now()) &&
+                                                                  ! loan.getEffectiveFrom().isAfter(LocalDate.now())))
+                                                          .collect(Collectors.toList());
+
+        if (idBooksBorrowed.isEmpty()){
+            return bookDatabase;
+        } else {
+            throw new DataIntegrityViolationException("Há um empréstimo em aberto. Não é possível alterar ou deletar o livro: " + idBooksBorrowed);
+        }
+    }
+
+    private List<Book> getBooksByIdDatabase(List<Integer> booksId) {
+        List<Book> books = bookRepository.findAllById(booksId);
+
+        List<Book> bookDatabase = Optional.ofNullable(books)
+                                          .orElseThrow(() -> new ObjectNotFoundException(
+                                           Constants.NOT_FOUND_BOOK, Optional.of(booksId)));
+        return bookDatabase;
     }
 }

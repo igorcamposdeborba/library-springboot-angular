@@ -12,12 +12,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/catalog",
+					"raw": "{{host}}/user",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"catalog"
+						"user"
 					]
 				}
 			},
@@ -267,6 +267,32 @@
 					"path": [
 						"book",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BOOK: deleteListBook",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[0, 1]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/book",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"book"
 					]
 				}
 			},

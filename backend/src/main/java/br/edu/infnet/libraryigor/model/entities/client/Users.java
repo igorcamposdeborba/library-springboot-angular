@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.lang.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public abstract class Users implements Serializable { // Classe abstrata para qu
     @NotBlank // nao permite vazio ou null
     private String name;
     @Email // valida formatos validos de email
+    @NotBlank // nao permite vazio ou null
     private String email;
     private boolean active;
 
