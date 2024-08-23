@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition
 public class OpenAPIConfig {
 
-    @Bean
+    @Bean // Bean para configurar o swagger para testar requests e documenta-las
     public OpenAPI customOpenAPI() {
            return new OpenAPI()
                    .info(new Info()

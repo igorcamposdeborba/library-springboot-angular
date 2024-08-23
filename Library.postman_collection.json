@@ -378,6 +378,23 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "EXTERNAL API: findRandomQuote",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/loan",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"loan"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
