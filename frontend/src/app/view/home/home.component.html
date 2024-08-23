@@ -7,4 +7,12 @@
         Sistema de Biblioteca
     </mat-card-subtitle>
     
+    <div *ngIf="! quote">Carregando citação...</div>
+
+    <mat-card *ngIf="quote" appearance="outlined" class="margin-top text-gray">
+        <mat-card-content> {{quote.reference}} - citação bíblica consumida de API de terceiros </mat-card-content>
+        <mat-card-content> "{{quote.text}}" </mat-card-content>
+        <div class="text-right"><small> Fonte: <a href="https://bible-api.com/" target="_blank" rel="noopener noreferrer"> https://bible-api.com/ </a> </small> </div>
+    </mat-card>
+
 </mat-card>

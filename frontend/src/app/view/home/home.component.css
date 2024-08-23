@@ -7,3 +7,15 @@
 .home .subtitle {
     font-size: 1.1rem;
 }
+
+.text-gray {
+    color: #757575; /* Isso é um cinza médio */
+}
+
+.text-right {
+    text-align: end;
+}
+
+.margin-top {
+    margin-top: 2.5rem;
+}

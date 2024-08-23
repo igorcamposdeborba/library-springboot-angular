@@ -10,7 +10,7 @@ import { LoanService } from '../loan.service';
 export class LoanReadComponent implements OnInit {
 
   loans: Loan[] = [];
-  // todo: colocar em ordem essa tabela
+  // todo: colocar em ordem essa tabela 
   displayedColumns = ['effectiveFrom', 'effectiveTo', 'bookId', 'title', 'author', 'userId', 'name', 'email', 'delivered', 'libraryId', 'action'];
 
 
