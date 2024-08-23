@@ -1,0 +1,13 @@
+<mat-card>
+    <mat-card-title>Novo empréstimo</mat-card-title>
+    
+
+    <button mat-raised-button (click)="createLoan()" color="primary" [disabled]="loanForm.invalid">
+        Salvar
+    </button>
+    
+    <button mat-raised-button (click)="cancel()">
+        Cancelar
+    </button>
+
+</mat-card>

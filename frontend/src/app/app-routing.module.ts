@@ -11,6 +11,8 @@ import { UsersUpdateComponent } from './components/users/users-update/users-upda
 import { HttpErrorInterceptor } from './config/HttpErrorInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookUpdateComponent } from './components/book/book-update/book-update.component';
+import { LoanCrudComponent } from './view/loan-crud/loan-crud.component';
+import { LoanCreateComponent } from './components/loan/loan-create/loan-create.component';
 
 const routes: Routes = [{
   path: "",
@@ -24,8 +26,7 @@ const routes: Routes = [{
 }, {
   path: "book/update/:id",
   component: BookUpdateComponent
-},
-{
+},{
   path: "book/delete/:id",
   component: BookDeleteComponent
 }, {
@@ -37,10 +38,15 @@ const routes: Routes = [{
 }, {
   path: "users/update/:id",
   component: UsersUpdateComponent
-},
-{
+}, {
   path: "users/delete/:id",
   component: UsersDeleteComponent
+}, {
+  path: "loan",
+  component: LoanCrudComponent
+}, {
+  path: "loan/create",
+  component: LoanCreateComponent
 }];
 
 @NgModule({

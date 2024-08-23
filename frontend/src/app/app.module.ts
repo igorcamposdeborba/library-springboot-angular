@@ -34,6 +34,9 @@ import { BookDeleteComponent } from './components/book/book-delete/book-delete.c
 import { UsersDeleteComponent } from './components/users/users-delete/users-delete.component';
 import { UsersUpdateComponent } from './components/users/users-update/users-update.component';
 import { MatOptionModule } from '@angular/material/core';
+import { LoanCreateComponent } from './components/loan/loan-create/loan-create.component';
+import { LoanReadComponent } from './components/loan/loan-read/loan-read.component';
+import { LoanCrudComponent } from './view/loan-crud/loan-crud.component';
 
 
 registerLocaleData (localePt);
@@ -56,7 +59,10 @@ registerLocaleData (localePt);
     UsersCreateComponent,
     UsersReadComponent,
     UsersDeleteComponent,
-    UsersUpdateComponent
+    UsersUpdateComponent,
+    LoanReadComponent,
+    LoanCreateComponent,
+    LoanCrudComponent
   ],
   imports: [
     BrowserModule,
