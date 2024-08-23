@@ -4,8 +4,6 @@ package br.edu.infnet.libraryigor.model.entities.dto;
 import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 

@@ -20,6 +20,8 @@ import java.util.List;
 @RequestMapping(value = "/loan") // rota
 @Tag(name = "Loan", description = "Manage Loan") // descricao no swagger
 public class LoanController {
+    private static final String ID = "/{id}";
+
     @Autowired
     private LoanService loanService;
 
@@ -37,6 +39,22 @@ public class LoanController {
 
         return ResponseEntity.ok().body(loanList);
     }
+
+    @Operation(
+            description = "Get Loan by Id",
+            summary = "Get specific loan from Library repository",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200"),
+                    @ApiResponse(description = "Not found", responseCode = "404")
+            }
+    )
+    @PostMapping(value = "/find", produces = "application/json") // POST porque vou usar o body para declarar a chave composta
+    public ResponseEntity<LoanDTO> findById(@RequestBody LoanDTO loanDTO){
+        LoanDTO loan = loanService.findById(loanDTO.getBookId(), loanDTO.getUserId());
+
+        return ResponseEntity.ok().body(loan);
+    }
+
 
     @Operation(
             description = "Insert a new loan",

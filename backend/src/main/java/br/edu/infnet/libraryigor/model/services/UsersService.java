@@ -1,16 +1,16 @@
 package br.edu.infnet.libraryigor.model.services;
 
 import br.edu.infnet.libraryigor.Constants;
-import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Library;
+import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.client.Associate;
 import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
-import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.repositories.LibraryRepository;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,14 +26,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsersService {
-
-
     @Autowired
     private UserRepository userRepository; // injetar instancia do repository para buscar do banco de dados via JPA
     @Autowired
     private LibraryRepository libraryRepository;
     @Autowired
     private LoanRepository loanRepository;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     public List<UsersDTO> findAll(){
         List<Users> usersList = userRepository.findAll(Sort.by("name")); // buscar no banco de dados e ordenar por nome
@@ -84,9 +85,9 @@ public class UsersService {
     }
 
     @Transactional
-    public UsersDTO update(String idInput, UsersDTO userDTO) {
+    public UsersDTO update(String userIdInput, UsersDTO userDTO) {
         // Converter String para Integer id
-        Integer id = Integer.parseInt(idInput);
+        Integer id = Integer.parseInt(userIdInput);
 
         Optional<Users> userDatabase = Optional.ofNullable(userRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(
@@ -102,25 +103,79 @@ public class UsersService {
         Users user = null;
         switch (userDTO.getType()){
             case Constants.STUDENT -> {
-                Student entity = new Student(userDTO);
-                // Todo: bug: esse casting faz com que o usuário não possa trocar de Associata <-> para Student
-                entity.setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
+                validatePenalty(userDatabase);
+
+                Student entity = objectMapper.convertValue(userDatabase.get(), Student.class);
+//                Student entity = (Student) userDatabase.get();
+
+                if (userDatabase.get() instanceof Student){
+                    entity.setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
+                }
                 entity.setCourseName(userDTO.getCourseName());
                 entity.setLibrary(library);
 
-                user = userRepository.save(entity); // salvar no banco de dados
+                deleteUserAssociateToChangeUserType(userDatabase); // deletar usuário se for uma mudança de tipo de usuário de Associate para Student.
+
+                userRepository.save(entity); // salvar no banco de dados
+//                user = userRepository.save(entity); // salvar no banco de dados
             }
+
             case Constants.ASSOCIATE -> {
-                Associate entity = new Associate(userDTO);
+                validatePenalty(userDatabase);
+
+                Associate entity = objectMapper.convertValue(userDatabase.get(), Associate.class);
+//                Associate entity = (Associate) userDatabase.get();
+
                 entity.setDepartment(userDTO.getDepartment());
                 entity.setSpecialty(userDTO.getSpecialty());
                 entity.setLibrary(library);
 
-                user = userRepository.save(entity); // salvar no banco de dados
+                deleteUserStudentToChangeUserType(userDatabase); // deletar usuário se for uma mudança de tipo de usuário de Student para Associate.
+
+                userRepository.save(entity); // salvar no banco de dados
+//                user = userRepository.save(entity); // salvar no banco de dados
             }
         }
-        return new UsersDTO(user); // retornar o que foi salvo no banco de dados
+        return userDTO;
+//        return new UsersDTO(user); // retornar o que foi salvo no banco de dados
+    }
 
+    private void deleteUserStudentToChangeUserType(Optional<Users> userDatabase) {
+        validateDeletion(userDatabase);
+
+        if (userDatabase.get() instanceof Student && ((Student) userDatabase.get()).getPendingPenaltiesAmount().equals(0.0)){
+            userRepository.delete(userDatabase.get());
+        }
+    }
+    private void deleteUserAssociateToChangeUserType(Optional<Users> userDatabase) {
+        validateDeletion(userDatabase);
+
+        if (userDatabase.get() instanceof Associate){
+            userRepository.delete(userDatabase.get());
+        }
+    }
+
+    private Optional<Users> validateDeletion(Optional<Users> userDatabase){
+        Integer userId = userDatabase.get().getId();
+        List<Loan> allLoansOfLibrary = loanRepository.findAll();
+
+        Optional<Loan> emptyLoanForUser = allLoansOfLibrary.stream()
+                .filter(loan -> loan.getUser().getId().equals(userId) &&
+                        loan.getEffectiveTo().isBefore(LocalDate.now()) &&
+                        ! loan.getEffectiveFrom().isAfter(LocalDate.now())).findAny();
+
+        if (emptyLoanForUser.isEmpty()){
+            return userDatabase;
+        } else {
+            throw new DataIntegrityViolationException("Há um empréstimo em aberto. Não é possível alterar ou deletar usuário");
+        }
+    }
+
+    private static void validatePenalty(Optional<Users> userDatabase) {
+        if (userDatabase.get() instanceof Student && ((Student) userDatabase.get()).getPendingPenaltiesAmount() > 0.0){
+            throw new IllegalArgumentException("Você não pode trocar o tipo de usuário porque há multas a serem pagas no valor de R$ "
+                    + ((Student) userDatabase.get()).getPendingPenaltiesAmount());
+        }
     }
 
     @Transactional

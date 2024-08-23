@@ -3,6 +3,7 @@ import br.edu.infnet.libraryigor.Constants;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "student")
+@JsonIgnoreProperties(ignoreUnknown = true) // jackson ignora campos que ele não encontra na serializacao/deserializacao do json: serve para trocar o tipo de Student para Associate
 public class Student extends Users {
     private Double pendingPenaltiesAmount;
     private String courseName;

@@ -2,7 +2,6 @@ package br.edu.infnet.libraryigor.model.entities;
 
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;

@@ -102,7 +102,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\": \"Student\",\r\n    \"courseName\": \"TI e Marketing\",\r\n    \"name\": \"Igor Campos de Borba\",\r\n    \"email\": \"igor3@hotmail.com\",\r\n    \"active\": true,\r\n    \"libraryId\": 1\r\n}",
+					"raw": "{\r\n    \"type\": \"Associate\",\r\n    \"department\": \"TI\",\r\n    \"specialty\": \"Software Engineering\",\r\n    \"name\": \"Igor Campos de Borba\",\r\n    \"email\": \"igor@hotmail.com\",\r\n    \"active\": true,\r\n    \"libraryId\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -110,14 +110,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/user/single/3",
+					"raw": "{{host}}/user/2",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"user",
-						"single",
-						"3"
+						"2"
 					]
 				}
 			},
@@ -162,6 +161,33 @@
 					],
 					"path": [
 						"loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOAN: findById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 1,\r\n    \"userId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/loan/find",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"loan",
+						"find"
 					]
 				}
 			},
