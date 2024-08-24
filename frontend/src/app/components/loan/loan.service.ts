@@ -47,7 +47,7 @@ export class LoanService {
   }
 
   update (loanData: Loan): Observable<Loan> {
-    return this.http.post<Loan>(this.baseUrl + '/find', loanData);
+    return this.http.post<Loan>(this.baseUrl + '/deliver', loanData);
   }
 
   errorHandler(error: any) : Observable<any> {

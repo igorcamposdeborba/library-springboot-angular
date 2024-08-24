@@ -3,6 +3,7 @@ package br.edu.infnet.libraryigor.controller;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
+import br.edu.infnet.libraryigor.model.entities.dto.LoanDeliverDTO;
 import br.edu.infnet.libraryigor.model.services.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -81,19 +82,14 @@ public class LoanController {
             description = "Deliver a book",
             summary = "Deliver book loaned and register this on Library repository",
             responses = {
-                    @ApiResponse(description = "Created", responseCode = "201"),
+                    @ApiResponse(description = "Ok", responseCode = "200"),
                     @ApiResponse(description = "Bad request", responseCode = "400"),
                     @ApiResponse(description = "Not found", responseCode = "404"),
                     @ApiResponse(description = "Unprocessable content", responseCode = "422")
             }
     )
     @PostMapping(value = "/deliver", produces = "application/json") // produces especifica o formato de saída para o Swagger
-    public ResponseEntity<BookDTO> deliverBook(@Valid @RequestBody LoanDTO loanDTO){
-        // Devolver livro
-        loanService.deliverBook(loanDTO);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(loanDTO.getBookId().toString()).buildAndExpand().toUri();
-
-        return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
+    public void deliverBook(@Valid @RequestBody LoanDeliverDTO loanDTO){
+        loanService.deliverBook(loanDTO); // Devolver livro
     }
 }

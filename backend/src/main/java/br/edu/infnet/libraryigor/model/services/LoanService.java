@@ -8,6 +8,7 @@ import br.edu.infnet.libraryigor.model.entities.client.Associate;
 import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
+import br.edu.infnet.libraryigor.model.entities.dto.LoanDeliverDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import jakarta.transaction.Transactional;
@@ -90,7 +91,7 @@ public class LoanService {
         return new LoanDTO(entity); // retornar o que foi salvo no banco de dados
     }
 
-    public void deliverBook(LoanDTO loanDTO){
+    public void deliverBook(LoanDeliverDTO loanDTO){
         Loan loan = loanRepository.findById(new LoanRecord(loanDTO.getBookId(), loanDTO.getUserId())).get();
         loan.setDelivered();
         loanRepository.save(loan);
