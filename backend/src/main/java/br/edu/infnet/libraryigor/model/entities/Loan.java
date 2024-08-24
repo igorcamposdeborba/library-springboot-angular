@@ -108,8 +108,8 @@ public class Loan implements Serializable { // Serializable para trafegar em red
     public String toString() {
         return "LOAN{" +
                 "loanId: " + loanId +
-                "user: " + users.getName() +
-                ", book: " + book.getTitle() +
+                "user: " + (Objects.isNull(users) ? "" : users.getName()) +
+                ", book: " + (Objects.isNull(book) ? "" : book.getTitle()) +
                 ", effectiveFrom: " + effectiveFrom +
                 ", effectiveTo: " + effectiveTo +
                 '}';

@@ -1,5 +1,6 @@
-package br.edu.infnet.libraryigor;
+package br.edu.infnet.libraryigor.integration;
 
+import br.edu.infnet.libraryigor.Scheduler;
 import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Loan;
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
@@ -8,14 +9,15 @@ import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
-import br.edu.infnet.libraryigor.model.services.LoanService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +25,9 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class) // setar contexto de testes para usar funcionalidades do spring boot
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // inicializar banco de dados
+@TestPropertySource(locations = "classpath:application-dev.properties") //chamar o application.properties de dev do banco de dados
 public class LoanServiceTest {
 
     @Autowired
