@@ -5,11 +5,15 @@
   
     <form *ngIf="loan as loanData">
       <mat-form-field>
-        <input matInput placeholder="Título" [(ngModel)]="loan.bookTitle" name="bookTitle">
+        <input matInput placeholder="Título" [(ngModel)]="loan.bookTitle" name="bookTitle" disabled>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Nome do usuário" [(ngModel)]="loan.users.name" name="name" disabled>
       </mat-form-field>
   
       <mat-form-field>
-        <input matInput type="date" placeholder="Data de início" [(ngModel)]="loan.effectiveFrom" name="effectiveFrom">
+        <input matInput type="date" placeholder="Data de início" [(ngModel)]="loan.effectiveFrom" name="effectiveFrom" disabled>
       </mat-form-field>
   
       <mat-form-field>
