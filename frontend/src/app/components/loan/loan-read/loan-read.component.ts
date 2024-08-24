@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Loan } from '../loan.model';
 import { LoanService } from '../loan.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-loan-read',
@@ -9,17 +10,25 @@ import { LoanService } from '../loan.service';
 })
 export class LoanReadComponent implements OnInit {
 
-  loans: Loan[] = [];
+  loan: Loan [] = [];
   // todo: colocar em ordem essa tabela 
-  displayedColumns = ['effectiveFrom', 'effectiveTo', 'bookId', 'title', 'author', 'userId', 'name', 'email', 'delivered', 'libraryId', 'action'];
+  displayedColumns = ['bookId', 'userId', 'title', 'name', 'effectiveFrom', 'effectiveTo', 'delivered', 'author', 'email', 'action'];
 
 
-  constructor(private loanService: LoanService) { }
+  constructor(private loanService: LoanService, private formBuilder: FormBuilder) { }
+
+
 
   ngOnInit(): void {
     this.loanService.read().subscribe(loan => {
-      this.loans = loan;
+      this.loan = loan;
       console.log(loan);
     })
+  }
+
+  isOverdue(loan: Loan) {
+    const today = new Date();
+    const dueDate = new Date(loan.effectiveTo);
+    return !loan.delivered && dueDate < today;
   }
 }

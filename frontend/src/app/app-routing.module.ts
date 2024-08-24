@@ -13,6 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookUpdateComponent } from './components/book/book-update/book-update.component';
 import { LoanCrudComponent } from './view/loan-crud/loan-crud.component';
 import { LoanCreateComponent } from './components/loan/loan-create/loan-create.component';
+import { LoanUpdateComponent } from './components/loan/loan-update/loan-update.component';
 
 const routes: Routes = [{
   path: "",
@@ -47,7 +48,10 @@ const routes: Routes = [{
 }, {
   path: "loan/create",
   component: LoanCreateComponent
-}];
+}, {
+  path: "loan/update",
+  component: LoanUpdateComponent
+},];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

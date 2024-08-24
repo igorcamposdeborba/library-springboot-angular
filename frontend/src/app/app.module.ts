@@ -37,6 +37,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { LoanCreateComponent } from './components/loan/loan-create/loan-create.component';
 import { LoanReadComponent } from './components/loan/loan-read/loan-read.component';
 import { LoanCrudComponent } from './view/loan-crud/loan-crud.component';
+import { LoanUpdateComponent } from './components/loan/loan-update/loan-update.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 registerLocaleData (localePt);
@@ -62,6 +64,7 @@ registerLocaleData (localePt);
     UsersUpdateComponent,
     LoanReadComponent,
     LoanCreateComponent,
+    LoanUpdateComponent,
     LoanCrudComponent
   ],
   imports: [
@@ -80,7 +83,8 @@ registerLocaleData (localePt);
     MatInputModule,
     MatTableModule,
     MatOptionModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggleModule
   ],
   providers: [{
     provide: LOCALE_ID,

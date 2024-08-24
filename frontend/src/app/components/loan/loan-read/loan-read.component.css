@@ -4,9 +4,26 @@ table {
 
 .edit > i {
     color: #d9cd26;
-    margin-right: 10px;
 }
 
-.delete > i {
-    color: #e35e6b;
+.edit {
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .mat-column-action {
+    text-align: center;
+  }
+  
+  .mat-column-action .mat-cell {
+    display: flex;
+    justify-content: center;
+  }
+
+.text-red {
+    color: red;
+}
+.center {
+    text-align: center;
+    font-weight: 400;
 }

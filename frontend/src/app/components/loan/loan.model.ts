@@ -17,7 +17,7 @@ export interface Loan {
             department: string;
             specialty: string;
         },
-        effectiveFrom: string;
-        effectiveTo: string;
-        delivered: boolean;
+    effectiveFrom: string;
+    effectiveTo: string;
+    delivered: boolean;
 }

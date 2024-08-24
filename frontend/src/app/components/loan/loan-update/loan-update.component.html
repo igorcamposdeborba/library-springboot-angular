@@ -1,0 +1,32 @@
+<mat-card>
+    <mat-card-title>Editar empréstimo</mat-card-title>
+  
+    <div *ngIf="!loan">Carregando empréstimo...</div>
+  
+    <form *ngIf="loan as loanData">
+      <mat-form-field>
+        <input matInput placeholder="Título" [(ngModel)]="loan.bookTitle" name="bookTitle">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput type="date" placeholder="Data de início" [(ngModel)]="loan.effectiveFrom" name="effectiveFrom">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput type="date" placeholder="Data de fim" [(ngModel)]="loan.effectiveTo" name="effectiveTo">
+      </mat-form-field>
+  
+      <mat-slide-toggle [(ngModel)]="loan.delivered" name="delivered" color="primary" checked>
+        {{ loan.delivered ? 'Devolver livro' : 'Livro não devolvido' }}
+      </mat-slide-toggle>
+      
+    </form>
+  
+    <button mat-raised-button (click)="updateLoan()" color="primary">
+      Salvar
+    </button>
+  
+    <button mat-raised-button (click)="cancel()">
+      Cancelar
+    </button>
+</mat-card>

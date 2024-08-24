@@ -1,25 +1,60 @@
 <div class="mat-elevation-z4">
-     <table mat-table [dataSource]="loans"> 
+    <table mat-table [dataSource]="loan"> 
      
-      <div *ngIf="!loans || !loans.length">Carregando livros...</div>
+      <div *ngIf="!loan">Carregando livros...</div>
+      
+      <ng-container matColumnDef="bookId">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Id do livro</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].bookId}}</td>
+      </ng-container>
 
       <ng-container matColumnDef="userId">
         <th mat-header-cell *matHeaderCellDef style="text-align: center">Id do usuário</th>
-        <td mat-cell *matCellDef="let row" style="text-align: center">{{row.userId}}</td>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].userId}}</td>
       </ng-container>
-  
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Título</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].book.title}}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Nome do usuário</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].users.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="effectiveFrom">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Data de início</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].effectiveFrom}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="effectiveTo">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Data de fim</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].effectiveTo}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="delivered">
+        <th mat-header-cell *matHeaderCellDef class="center">Livro devolvido</th>
+        <td mat-cell *matCellDef="let row; let i = index" [ngClass]="{'text-red': isOverdue(row)}" class="center">
+          {{loan[i].delivered ? 'Sim' : 'Não'}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">Autor</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].book.author}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center">E-mail</th>
+        <td mat-cell *matCellDef="let row; let i = index" style="text-align: center">{{loan[i].users.email}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Ação</th>
-        <td mat-cell *matCellDef="let row">
-          <a routerLink="/book/update/{{ row.id }}" class="edit">
-            <i class="material-icons">
-              edit
-            </i>
-          </a>
-          <a routerLink="/book/delete/{{ row.id }}" class="delete">
-            <i class="material-icons">
-              delete
-            </i>
+        <th mat-header-cell *matHeaderCellDef class="mat-column-action">Registrar devolução</th>
+        <td mat-cell *matCellDef="let row" class="mat-column-action">
+          <a routerLink="/loan/update" [queryParams]="{ bookId: row.bookId, userId: row.userId }" class="mat-column-action">
+            <i class="material-icons">edit</i>
           </a>
         </td>
       </ng-container>

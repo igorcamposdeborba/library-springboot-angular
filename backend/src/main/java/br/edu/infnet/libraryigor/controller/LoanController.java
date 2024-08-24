@@ -92,7 +92,7 @@ public class LoanController {
         // Devolver livro
         loanService.deliverBook(loanDTO);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand().toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(loanDTO.getBookId().toString()).buildAndExpand().toUri();
 
         return ResponseEntity.created(uri).build(); // retornar status created 201 com uri do objeto criado
     }

@@ -11,7 +11,7 @@ export class LoanService {
 
   private baseUrl: string="http://localhost:8080/loan";
 
-  constructor(private snackBar: MatSnackBar, private http: HttpClient) {  } // injeção de dependência para usar/modificar recursos externos na minha página
+  constructor(private snackBar: MatSnackBar, private http: HttpClient) {  }
 
   showMessage(msg: string, isError: boolean = false) : void {
     this.snackBar.open(msg, 'X', {
@@ -37,6 +37,18 @@ export class LoanService {
     );
   }
 
+  readById(bookId: number, userId: number): Observable<Loan> {
+    const url = `${this.baseUrl}/find`;
+    const body = { bookId, userId };
+    return this.http.post<Loan>(url, body).pipe(
+      map(obj => obj),
+      catchError(e => this.errorHandler(e))
+    );
+  }
+
+  update (loanData: Loan): Observable<Loan> {
+    return this.http.post<Loan>(this.baseUrl + '/find', loanData);
+  }
 
   errorHandler(error: any) : Observable<any> {
     this.showMessage(`Erro: ${error.message}`, true);
