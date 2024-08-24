@@ -1,8 +1,35 @@
 <mat-card>
-    <mat-card-title>Novo empréstimo</mat-card-title>
-    
+    <mat-card-title>Adicionar empréstimo</mat-card-title>
 
-    <button mat-raised-button (click)="createLoan()" color="primary" [disabled]="loanForm.invalid">
+    <div *ngIf="!bookForm">Carregando livros...</div>
+    <div *ngIf="!loanForm">Carregando empréstimo...</div>
+
+    <form [formGroup]="bookForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Selecione o livro</mat-label>
+          <mat-select [(ngModel)]="bookIdSelected" formControlName="book" (selectionChange)="onSelectionChange($event.value)">
+            <mat-option *ngFor="let book of books" [value]="book.id">
+              {{ book.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    <form [formGroup]="loanForm">
+        <mat-form-field>
+            <input matInput placeholder="E-mail do usuário" formControlName="email" name="email" (blur)="findUserByEmail($event)">
+        </mat-form-field>
+    
+        <mat-form-field>
+          <input matInput type="date"  placeholder="Data de início" formControlName="effectiveFrom" name="effectiveFrom">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="date"  placeholder="Data de fim" formControlName="effectiveTo" name="effectiveTo">
+          </mat-form-field>
+    
+    </form>
+
+    <button mat-raised-button (click)="createLoan()" color="primary">
         Salvar
     </button>
     
@@ -11,3 +38,6 @@
     </button>
 
 </mat-card>
+
+
+

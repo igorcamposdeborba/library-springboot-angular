@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { Loan } from './loan.model';
+import { LoanCreate } from './loan-create.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class LoanService {
     })
   }
 
-  create(loan: Loan): Observable<Loan>{ // comunicação com o banco de dados
+  create(loan: LoanCreate): Observable<Loan>{ // comunicação com o banco de dados
 
     return this.http.post<Loan>(this.baseUrl, loan).pipe(
       map(obj => obj),

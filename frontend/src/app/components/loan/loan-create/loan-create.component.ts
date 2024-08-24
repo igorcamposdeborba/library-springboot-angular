@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { LoanService } from '../loan.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Loan } from '../loan.model';
+import { BookService } from '../../book/book.service';
+import { Book } from '../../book/book.model';
+import { Users } from '../../users/users.model';
+import { UsersService } from '../../users/users.service';
+import { LoanCreate } from '../loan-create.model';
 
 @Component({
   selector: 'app-loan-create',
@@ -11,32 +16,82 @@ import { Loan } from '../loan.model';
 })
 export class LoanCreateComponent implements OnInit {
   loanForm: FormGroup;
+  bookForm: FormGroup;
 
-  constructor( private loanService: LoanService, private router: Router, private formBuilder: FormBuilder) { }
+  bookIdSelected : number;
+  books: Book [] = [];
+  user : Users;
+  loan: LoanCreate = {
+    bookId: 0,
+    userId: 0,
+    effectiveFrom: '',
+    effectiveTo: ''
+  };
+
+  constructor(private bookService: BookService, private loanService : LoanService, private usersService: UsersService, private router: Router, private route: ActivatedRoute,
+              private formBuilder: FormBuilder, private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.loanForm = this.formBuilder.group({   
+    this.bookService.read().subscribe(book => {
+      this.books = book;
+      this.changeDetector.markForCheck(); // Forçar detecção de alterações
+      console.log(book);
+    })
 
-      title: ['', Validators.required],
-      author: ['', Validators.required],
-      yearPublication: ['', Validators.required],
-      price: [4],
-      libraryId: 1
+    this.loanForm = this.formBuilder.group({   
+      bookId: [],
+      userId: [],
+      effectiveFrom: [''],
+      effectiveTo: ['']
     });
 
-    this.loanForm.valueChanges.subscribe(value => {
-      this.loanForm.get('title')?.setValidators(Validators.required);      
-      this.loanForm.get('author')?.setValidators(Validators.required);
-      this.loanForm.get('yearPublication')?.setValidators(Validators.required);
-      this.loanForm.get('price')?.clearValidators();
+    this.loanForm.get('bookId')?.valueChanges.subscribe(value => {
+      this.loanForm.get('effectiveFrom')?.updateValueAndValidity();
+      this.loanForm.get('effectiveTo')?.updateValueAndValidity();
+    }); 
+
+    this.bookForm = this.formBuilder.group({   
+      id: [],
+      title: [''],
+      author: [''],
+      yearPublication: [''],
+      price: [],
+      libraryId: []
+    });
+
+
+    this.bookForm.get('id')?.valueChanges.subscribe(value => {
+      this.bookForm.get('title')?.updateValueAndValidity();
+      this.bookForm.get('author')?.updateValueAndValidity();
+      this.bookForm.get('yearPublication')?.updateValueAndValidity();
+      this.bookForm.get('price')?.updateValueAndValidity();
+      this.bookForm.get('libraryId')?.updateValueAndValidity();
     }); 
   }
 
   createLoan() {
-    this.loanService.create(this.loanForm.value).subscribe(() => {
+    this.loan.bookId = this.bookIdSelected;
+    console.log("id do livro: " + this.bookIdSelected)
+    this.loan.userId = this.user.id;
+    this.loanService.create(this.loan).subscribe(() => {
       this.loanService.showMessage('Empréstimo criado');
       this.router.navigate(['/loan']);
     });
+  }
+
+  findUserByEmail(emailInput: any){
+    console.log(emailInput.target.value);
+    this.usersService.readByEmail(emailInput.target.value).subscribe(user => {
+        this.user = user;
+        this.loan.userId = user.id;
+      });
+  }
+
+  onSelectionChange(event: any) {
+    console.log("onSelectionChange " + event)
+    this.bookIdSelected = event;
+    this.changeDetector.markForCheck();
   }
 
   cancel() {

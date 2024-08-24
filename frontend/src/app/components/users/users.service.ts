@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { Users } from './users.model';
+import { UserEmail } from './userEmail';
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +46,20 @@ export class UsersService {
     );
   }
 
-  update (users: Users) : Observable<Users> {
-    const url = `${this.baseUrl}/${users.id}`;
-    return this.http.put<Users>(url, users).pipe(
+  readByEmail(userEmail: UserEmail): Observable<Users> {
+    const url = `${this.baseUrl}/email`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); // No Content-Type header needed
+  
+    return this.http.post<UserEmail>(url, new String(userEmail), {headers})
+      .pipe(
+        map(user => user),
+        catchError(e => this.errorHandler(e))
+      );
+  }
+
+  update (user: Users) : Observable<Users> {
+    const url = `${this.baseUrl}/${user.id}`;
+    return this.http.put<Users>(url, user).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );

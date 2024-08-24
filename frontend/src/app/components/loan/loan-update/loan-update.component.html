@@ -17,7 +17,7 @@
       </mat-form-field>
   
       <mat-form-field>
-        <input matInput type="date" placeholder="Data de fim" [(ngModel)]="loan.effectiveTo" name="effectiveTo">
+        <input matInput type="date" placeholder="Data de fim" [(ngModel)]="loan.effectiveTo" name="effectiveTo" [disabled]="loan.delivered">
       </mat-form-field>
   
       <mat-slide-toggle [(ngModel)]="loan.delivered" name="delivered" color="primary" [disabled]="loan.delivered">

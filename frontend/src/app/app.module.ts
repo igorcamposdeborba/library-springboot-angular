@@ -39,6 +39,7 @@ import { LoanReadComponent } from './components/loan/loan-read/loan-read.compone
 import { LoanCrudComponent } from './view/loan-crud/loan-crud.component';
 import { LoanUpdateComponent } from './components/loan/loan-update/loan-update.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 
 registerLocaleData (localePt);
@@ -84,7 +85,8 @@ registerLocaleData (localePt);
     MatTableModule,
     MatOptionModule,
     ReactiveFormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule
   ],
   providers: [{
     provide: LOCALE_ID,

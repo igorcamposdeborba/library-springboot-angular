@@ -21,7 +21,7 @@ export class UsersUpdateComponent implements OnInit {
   ngOnInit(): void {
     const id = +this.route.snapshot.paramMap.get('id')
  
-    if (!(id == null)){
+    if (id != null){
       this.usersService.readById(id).subscribe(users => {
         this.users = users;
       })

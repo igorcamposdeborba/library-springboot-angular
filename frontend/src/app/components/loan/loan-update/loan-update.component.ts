@@ -9,8 +9,7 @@ import { LoanService } from '../loan.service';
   styleUrls: ['./loan-update.component.css']
 })
 export   
- class LoanUpdateComponent implements OnInit   
- {
+ class LoanUpdateComponent implements OnInit {
 
   loan: Loan | undefined;
 
