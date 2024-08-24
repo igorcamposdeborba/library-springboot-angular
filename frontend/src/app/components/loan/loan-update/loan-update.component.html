@@ -20,7 +20,7 @@
         <input matInput type="date" placeholder="Data de fim" [(ngModel)]="loan.effectiveTo" name="effectiveTo">
       </mat-form-field>
   
-      <mat-slide-toggle [(ngModel)]="loan.delivered" name="delivered" color="primary" checked>
+      <mat-slide-toggle [(ngModel)]="loan.delivered" name="delivered" color="primary" [disabled]="loan.delivered">
         {{ loan.delivered ? 'Devolver livro' : 'Livro não devolvido' }}
       </mat-slide-toggle>
       
