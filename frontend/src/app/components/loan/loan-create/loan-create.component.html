@@ -20,11 +20,11 @@
         </mat-form-field>
     
         <mat-form-field>
-          <input matInput type="date"  placeholder="Data de início" formControlName="effectiveFrom" name="effectiveFrom">
+          <input matInput type="date"  placeholder="Data de início" formControlName="effectiveFrom" name="effectiveFrom" [(ngModel)]="effectiveFromActual">
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput type="date"  placeholder="Data de fim" formControlName="effectiveTo" name="effectiveTo">
+            <input matInput type="date"  placeholder="Data de fim" formControlName="effectiveTo" name="effectiveTo" [(ngModel)]="effectiveToActual">
           </mat-form-field>
     
     </form>

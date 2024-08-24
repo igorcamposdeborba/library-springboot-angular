@@ -85,7 +85,7 @@ public class Loan implements Serializable { // Serializable para trafegar em red
     }
 
     public void setDelivered() {
-        isDelivered = ! isDelivered;
+        isDelivered = true;
     }
 
     public void setLoanId(LoanRecord loanId) {

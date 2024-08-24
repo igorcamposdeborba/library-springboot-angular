@@ -18,6 +18,9 @@ export class LoanCreateComponent implements OnInit {
   loanForm: FormGroup;
   bookForm: FormGroup;
 
+  effectiveFromActual : string;
+  effectiveToActual : string;
+
   bookIdSelected : number;
   books: Book [] = [];
   user : Users;
@@ -72,8 +75,9 @@ export class LoanCreateComponent implements OnInit {
 
   createLoan() {
     this.loan.bookId = this.bookIdSelected;
-    console.log("id do livro: " + this.bookIdSelected)
     this.loan.userId = this.user.id;
+    this.loan.effectiveFrom = this.effectiveFromActual;
+    this.loan.effectiveTo = this.effectiveToActual;
     this.loanService.create(this.loan).subscribe(() => {
       this.loanService.showMessage('Empréstimo criado');
       this.router.navigate(['/loan']);
