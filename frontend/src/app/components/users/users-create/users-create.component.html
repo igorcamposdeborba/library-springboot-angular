@@ -2,7 +2,7 @@
     <mat-card-title>Novo usuário</mat-card-title>
     <div *ngIf="!userForm">Carregando usuários...</div>
     
-    <form [formGroup]="userForm">
+    <form [formGroup]="userForm">      
           <mat-form-field>
             <mat-label>Tipo de usuário</mat-label>
             <select matNativeControl required formControlName="type">
