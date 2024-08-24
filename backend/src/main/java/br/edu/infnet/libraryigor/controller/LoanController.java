@@ -1,7 +1,6 @@
 package br.edu.infnet.libraryigor.controller;
 
 import br.edu.infnet.libraryigor.model.entities.LoanRecord;
-import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDeliverDTO;
 import br.edu.infnet.libraryigor.model.services.LoanService;

@@ -2,11 +2,9 @@ package br.edu.infnet.libraryigor.model.entities;
 
 import br.edu.infnet.libraryigor.Constants;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
-import br.edu.infnet.libraryigor.model.entities.dto.LibraryDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -45,7 +43,7 @@ public class Library implements Serializable { // Serializable para trafegar em 
         this.books = books;
         this.users = users;
     }
-    public Library(Library library){ //Todo: teste para o service/controller do loan
+    public Library(Library library){
         this.name = Constants.NAME;
         this.address = Constants.ADDRESS;
         this.books = library.getBooks();

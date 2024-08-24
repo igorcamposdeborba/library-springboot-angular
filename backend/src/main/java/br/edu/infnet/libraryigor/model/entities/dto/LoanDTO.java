@@ -10,8 +10,6 @@ import java.time.LocalDate;
 public class LoanDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-//    @Schema(description = "Database generate the Loan id compound") // Anotacao para Swagger
-//    private LoanRecord id; // id do empréstimo
     private Integer bookId;
     private Integer userId;
 

@@ -12,12 +12,8 @@ import br.edu.infnet.libraryigor.model.repositories.LibraryRepository;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -30,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration // gerencia os beans para configurar aplicação como o @bean para instanciar banco de dados
-@Profile("dev") // perfil de teste para executar pelo application.properties instanciar banco de dados
+@Profile("test") // perfil de teste para executar pelo application.properties instanciar banco de dados
 public class LocalConfig {
     @Autowired // injetar repository para usar os métodos para salvar no banco de dados
     UserRepository userRepository;
@@ -64,26 +60,19 @@ public class LocalConfig {
             readStudent("src/main/resources/init/student.csv");
             readLoans("src/main/resources/init/loan.csv");
 
-            // Atualizar a biblioteca com todos os livros e usuários
-//            library = new Library(bookMap, userMap);
-
             // Inserir no database
             List<Book> booksToSave = bookMap.values().stream()
                     .map(book -> bookRepository.findById(book.getId()).orElse(book))
                     .collect(Collectors.toList());
-//            savedBooks = bookRepository.saveAll(booksToSave);
 
             List<Users> usersToSave = userMap.values().stream()
                     .map(user -> userRepository.findById(user.getId()).orElse(user))
                     .collect(Collectors.toList());
-//            savedUsers = userRepository.saveAll(usersToSave);
 
             // atualizar biblioteca
             library = new Library(booksToSave, usersToSave);
             library.addBooks(savedBooks);
             library.addUsers(savedUsers);
-//            library.setUsers(savedUsers);
-//            libraryRepository.save(library);
 
             // atualizar livros para associar a biblioteca
             libraryRepository.save(library);
@@ -99,15 +88,6 @@ public class LocalConfig {
 
             bookRepository.saveAll(booksToSave);
 
-            // atualizar livros da biblioteca
-//            savedBooks = bookRepository.saveAll(booksToSave);
-
-
-//            savedLoans = loanRepository.saveAll(loans);
-//            savedbooks = bookRepository.saveAll(bookMap.values().stream().map(book -> bookRepository.findById(book.getId()).orElse(book)).collect(Collectors.toList()));
-//            savedUsers = userRepository.saveAll(userMap.values().stream().map(user -> userRepository.findById(user.getId()).orElse(user)).collect(Collectors.toList()));
-//            libraryRepository.save(library);
-
             System.out.println(new ObjectMapper().writeValueAsString(library.toString()));
 
         } catch (IOException e) {
@@ -116,27 +96,7 @@ public class LocalConfig {
 
         return Optional.of(library);
     }
-//    @EventListener(ApplicationReadyEvent.class) // disparar evento apos aplicacao estiver totalemente iniciada
-//    public void printDB() {
-//        // Printar dados em tela
-//        try {
-//            Unirest.setTimeouts(3000, 3000);// espera pela conexao e resposta 3 segundos
-//            HttpResponse<String> bookResponse = Unirest.get("http://localhost:8080/book").asString();
-//            HttpResponse<String> userResponse = Unirest.get("http://localhost:8080/user").asString();
-//            HttpResponse<String> bookInsertResponse = Unirest.post("http://localhost:8080/book/single")
-//                    .header("Content-Type", "application/json")
-//                    .body("{\r\n    \"title\": \"O Senhor dos Anéis\",\r\n    \"author\": \"J.R.R. Tolkien\",\r\n    \"yearPublication\": \"1954-07-29\",\r\n    \"price\": 4.00,\r\n    \"libraryId\": 1\r\n}").asString();
-//            HttpResponse<String> loanResponse = Unirest.get("http://localhost:8080/loan").asString();
-//
-//            System.out.println("BOOK findAll: " + bookResponse.getBody() + ". status " + bookResponse.getStatus());
-//            System.out.println("USER findAll: " + userResponse.getBody() + ". status " + userResponse.getStatus());
-//            System.out.println("BOOK insert: " + bookInsertResponse.getStatus());
-//            System.out.println("LOAN findAll: " + loanResponse.getBody() + ". status " + loanResponse.getStatus());
-//
-//        } catch (UnirestException e){
-//            e.printStackTrace();
-//        }
-//    }
+
     @Transactional
     public void readBooks(String path) throws IOException {
         String filePath = path;

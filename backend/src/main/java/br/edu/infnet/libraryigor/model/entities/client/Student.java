@@ -1,14 +1,10 @@
 package br.edu.infnet.libraryigor.model.entities.client;
 import br.edu.infnet.libraryigor.Constants;
-import br.edu.infnet.libraryigor.model.entities.Loan;
-import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "student")
@@ -30,8 +26,6 @@ public class Student extends Users {
               student.isActive());
         this.pendingPenaltiesAmount = Constants.ZERO;
         this.courseName = student.getCourseName();
-//        this.pendingPenaltiesAmount = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
-//        this.courseName = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
     }
 
     public Student() { super(); } // JPA precisa de construtor vazio público para persistir no banco de dados

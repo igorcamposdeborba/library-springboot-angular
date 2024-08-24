@@ -5,18 +5,16 @@ import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.repositories.LoanRepository;
 import br.edu.infnet.libraryigor.model.repositories.UserRepository;
-import br.edu.infnet.libraryigor.model.services.BookService;
-import br.edu.infnet.libraryigor.model.services.UsersService;
 import br.edu.infnet.libraryigor.model.services.utils.LoanUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class Scheduler {
     @Autowired
@@ -43,7 +41,7 @@ public class Scheduler {
                 System.out.println("userRepository " +user);
                 if (user.get() instanceof Student) {
                     System.out.println("daysInDelay " + daysInDelay);
-                    ((Student) user.get()).setPendingPenaltiesAmount(4.0 * daysInDelay);
+                    ((Student) user.get()).setPendingPenaltiesAmount(Constants.FOUR * daysInDelay);
                     System.out.println("((Student) user.get()) " + ((Student) user.get()).getPendingPenaltiesAmount());
                     userRepository.save(user.get());
                     System.out.println("user.get() " + user.get());

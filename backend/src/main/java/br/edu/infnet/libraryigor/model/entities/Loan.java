@@ -2,12 +2,12 @@ package br.edu.infnet.libraryigor.model.entities;
 
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.LoanDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
 @Entity
 @Table(name = "loan")
 public class Loan implements Serializable { // Serializable para trafegar em rede por bytes

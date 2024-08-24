@@ -1,8 +1,6 @@
 package br.edu.infnet.libraryigor.controller.api;
 
-import br.edu.infnet.libraryigor.model.entities.dto.BookDTO;
 import br.edu.infnet.libraryigor.model.entities.dto.api.QuoteDTO;
-import br.edu.infnet.libraryigor.model.services.BookService;
 import br.edu.infnet.libraryigor.model.services.api.QuoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

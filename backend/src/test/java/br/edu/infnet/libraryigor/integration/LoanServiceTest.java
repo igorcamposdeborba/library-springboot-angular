@@ -1,5 +1,6 @@
 package br.edu.infnet.libraryigor.integration;
 
+import br.edu.infnet.libraryigor.Constants;
 import br.edu.infnet.libraryigor.Scheduler;
 import br.edu.infnet.libraryigor.model.entities.Book;
 import br.edu.infnet.libraryigor.model.entities.Loan;
@@ -85,7 +86,7 @@ public class LoanServiceTest {
         }
         user.setId(1);
         Book book = new Book();
-        book.setPrice(4.0); //!todo: revisar se vai ser um preco padrao ou nao
+        book.setPrice(Constants.FOUR);
         loan.setBook(book);
         loan.setLoanId(new LoanRecord(1, 1));
         loan.setUser(user);

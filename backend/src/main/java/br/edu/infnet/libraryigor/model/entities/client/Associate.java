@@ -1,13 +1,9 @@
 package br.edu.infnet.libraryigor.model.entities.client;
-import br.edu.infnet.libraryigor.model.entities.Loan;
-import br.edu.infnet.libraryigor.model.entities.LoanRecord;
 import br.edu.infnet.libraryigor.model.entities.dto.UsersDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "associate")
@@ -28,8 +24,6 @@ public class Associate extends Users {
               associate.isActive());
         this.department = associate.getDepartment();
         this.specialty = associate.getSpecialty();
-//        this.department = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
-//        this.specialty = null; // todo: corrigir a lógica do processamento por fora. Talvez preencher com set via chamada para o banco
     }
 
     public Associate() { super(); } // JPA precisa de construtor vazio público para persistir no banco de dados

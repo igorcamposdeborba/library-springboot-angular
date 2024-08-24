@@ -104,7 +104,6 @@ public class UsersService {
                 validatePenalty(userDatabase);
 
                 Student entity = objectMapper.convertValue(userDatabase.get(), Student.class);
-//                Student entity = (Student) userDatabase.get();
 
                 if (userDatabase.get() instanceof Student){
                     entity.setPendingPenaltiesAmount(((Student) userDatabase.get()).getPendingPenaltiesAmount());
@@ -114,7 +113,6 @@ public class UsersService {
 
                 deleteUserAssociateToChangeUserType(userDatabase); // deletar usuário se for uma mudança de tipo de usuário de Associate para Student.
 
-//                userRepository.save(entity); // salvar no banco de dados
                 user = userRepository.save(entity); // salvar no banco de dados
             }
 
@@ -133,7 +131,6 @@ public class UsersService {
                 user = userRepository.save(entity); // salvar no banco de dados
             }
         }
-//        return userDTO;
         return new UsersDTO(user); // retornar o que foi salvo no banco de dados
     }
 
