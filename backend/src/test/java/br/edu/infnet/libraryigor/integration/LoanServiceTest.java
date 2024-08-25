@@ -28,7 +28,7 @@ import java.util.Optional;
 @SpringBootTest
 @ExtendWith(SpringExtension.class) // setar contexto de testes para usar funcionalidades do spring boot
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // inicializar banco de dados
-@TestPropertySource(locations = "classpath:application-dev.properties") //chamar o application.properties de dev do banco de dados
+@TestPropertySource(locations = "classpath:application-test.properties") //chamar o application.properties de dev do banco de dados
 public class LoanServiceTest {
 
     @Autowired

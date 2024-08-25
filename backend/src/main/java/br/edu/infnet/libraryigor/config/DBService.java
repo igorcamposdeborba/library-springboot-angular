@@ -14,10 +14,7 @@ import br.edu.infnet.libraryigor.model.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,17 +22,17 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Configuration // gerencia os beans para configurar aplicação como o @bean para instanciar banco de dados
-@Profile("test") // perfil de teste para executar pelo application.properties instanciar banco de dados
-public class LocalConfig {
-    @Autowired // injetar repository para usar os métodos para salvar no banco de dados
-    UserRepository userRepository;
+@Service // injetar instancias em outras partes do código
+public class DBService {
+
     @Autowired
-    BookRepository bookRepository;
+    private LibraryRepository libraryRepository;
     @Autowired
-    LoanRepository loanRepository;
+    private BookRepository bookRepository;
     @Autowired
-    LibraryRepository libraryRepository;
+    private UserRepository userRepository;
+    @Autowired
+    private LoanRepository loanRepository;
 
     private Map<Integer, Book> bookMap = new HashMap<>();
     private Map<Integer, Users> userMap = new HashMap<>();
@@ -43,10 +40,7 @@ public class LocalConfig {
     Set<Loan> loans = new HashSet<>();
     Library library = new Library();
 
-//    @Bean // Spring gerencia metodo para ser instanciado/injetado (@Autowired) em qualquer classe
-    @Order(0) // ordem de inicializacao (para garantir que mesmo que criem outros métodos futuramente, os dados do database seja inserido antes)
-    @Transactional
-    public Optional<?> startDB() {
+    public void instantiateDataBase() {
 
         List<Book> savedBooks = Collections.emptyList();
         List<Users> savedUsers = Collections.emptyList();
@@ -92,8 +86,6 @@ public class LocalConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return Optional.of(library);
     }
 
     @Transactional
@@ -119,7 +111,7 @@ public class LocalConfig {
                 );
                 bookMap.put(id, book);
             }
-                bookRepository.saveAll(bookMap.values());
+            bookRepository.saveAll(bookMap.values());
         }
     }
 
@@ -197,9 +189,5 @@ public class LocalConfig {
                 loanRepository.save(loan);
             }
         }
-
-    }
-    public Map<Integer, Book> getBookMap() {
-        return bookMap;
     }
 }

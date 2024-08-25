@@ -44,11 +44,12 @@ public class UserControllerUnitTest {
     @MockBean // mockar a configuração do bean para mockar o acesos ao banco de dados
     private UserRepository userRepository;
 
-    @MockBean
-    private Library library;
+//    @MockBean
+//    private LocalConfig localConfig;
+//
+//    @MockBean
+//    private Library library;
 
-    @Autowired
-    private LocalConfig localConfig;
 
     String userEmail;
     Integer idExpected;
