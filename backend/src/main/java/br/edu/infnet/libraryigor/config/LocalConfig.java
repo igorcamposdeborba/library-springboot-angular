@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration // gerencia os beans para configurar aplicação como o @bean para instanciar banco de dados
-@Profile("test") // perfil de teste para executar pelo application.properties instanciar banco de dados
+@Profile("dev") // perfil de teste para executar pelo application.properties instanciar banco de dados
 public class LocalConfig {
     @Autowired // injetar repository para usar os métodos para salvar no banco de dados
     UserRepository userRepository;

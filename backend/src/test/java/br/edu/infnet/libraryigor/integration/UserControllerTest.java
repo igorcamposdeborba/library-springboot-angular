@@ -68,7 +68,7 @@ public class UserControllerTest {
 
     private void initializeUserStudent(){
         userEmail = "igor2@hotmail.com";
-        idExpected = 1;
+        idExpected = 3;
         typeExpected = "Student";
         nameExpected = "Igor Borba";
         isActiveExpected = true;
