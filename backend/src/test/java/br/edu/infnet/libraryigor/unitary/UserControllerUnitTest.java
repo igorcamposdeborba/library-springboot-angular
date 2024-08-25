@@ -1,6 +1,8 @@
 package br.edu.infnet.libraryigor.unitary;
 
+import br.edu.infnet.libraryigor.config.LocalConfig;
 import br.edu.infnet.libraryigor.controller.UsersController;
+import br.edu.infnet.libraryigor.model.entities.Library;
 import br.edu.infnet.libraryigor.model.entities.client.Student;
 import br.edu.infnet.libraryigor.model.entities.client.Users;
 import br.edu.infnet.libraryigor.model.entities.dto.UserEmailRequest;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,9 +29,11 @@ import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class) // setar contexto de testes para usar funcionalidades do spring boot
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // inicializar banco de dados
-@TestPropertySource(locations = "classpath:application-test.properties") //
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // inicializar banco de dados
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class UserControllerUnitTest {
+
+    Library mockedLibrary = Mockito.mock(Library.class);
 
     @Mock // mockar o service
     private UsersService usersService;
@@ -39,6 +44,11 @@ public class UserControllerUnitTest {
     @MockBean // mockar a configuração do bean para mockar o acesos ao banco de dados
     private UserRepository userRepository;
 
+    @MockBean
+    private Library library;
+
+    @Autowired
+    private LocalConfig localConfig;
 
     String userEmail;
     Integer idExpected;
@@ -65,12 +75,17 @@ public class UserControllerUnitTest {
     void findUserByEmail_WhenControllerIsCalledWithUserEmail_ThenReturnUserData(){
         // GIVEN
         initializeUserStudent();
+
+        // Mockito: mockar library e setar id ao usuário
+        Library mockedLibrary = Mockito.mock(Library.class);
+        Mockito.when(mockedLibrary.getId()).thenReturn(libraryIdExpected);
+        user.setLibrary(mockedLibrary);
+
         UserEmailRequest userEmailDTO = new UserEmailRequest(userEmail);
         // mockito: mockar banco de dados
         Mockito.when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
         // mockito: mockar service
         Mockito.when(usersService.findByEmail(userEmail)).thenReturn(userDTO);
-
 
         // WHEN - mockito: mockar a resposta do controller (este é o teste)
         ResponseEntity<UsersDTO> response = usersController.findByEmail(userEmailDTO);
@@ -101,6 +116,7 @@ public class UserControllerUnitTest {
         user.setActive(isActiveExpected);
         ((Student) user).setPendingPenaltiesAmount(0.0);
         ((Student) user).setCourseName("TI");
+        userRepository.save(user);
 
         userDTO = new UsersDTO(user); // possível null no library dentro de UsersDTO
     }

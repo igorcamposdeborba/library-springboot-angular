@@ -48,7 +48,6 @@ public class LocalConfig {
     @Transactional
     public Optional<?> startDB() {
 
-        List<Loan> savedLoans = Collections.emptyList();
         List<Book> savedBooks = Collections.emptyList();
         List<Users> savedUsers = Collections.emptyList();
 
